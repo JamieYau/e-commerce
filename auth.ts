@@ -2,6 +2,7 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 import db from "./db/db";
 import Google from "next-auth/providers/google";
+import Github from "next-auth/providers/github";
 import {
   accounts,
   authenticators,
@@ -11,6 +12,10 @@ import {
 } from "./db/schema";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  // add logo for sign in
+  // theme: {
+  //     logo:""
+  // },
   adapter: DrizzleAdapter(db, {
     usersTable: users,
     accountsTable: accounts,
@@ -18,5 +23,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     verificationTokensTable: verificationTokens,
     authenticatorsTable: authenticators,
   }),
-  providers: [Google],
+  providers: [Google, Github],
 });
