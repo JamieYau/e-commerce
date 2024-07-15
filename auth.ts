@@ -10,8 +10,10 @@ import {
   users,
   verificationTokens,
 } from "./db/schema";
+import { Adapter } from "next-auth/adapters";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
   // add logo for sign in
   // theme: {
   //     logo:""
@@ -22,6 +24,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     sessionsTable: sessions,
     verificationTokensTable: verificationTokens,
     authenticatorsTable: authenticators,
-  }),
+  }) as Adapter,
   providers: [Google, Github],
 });
