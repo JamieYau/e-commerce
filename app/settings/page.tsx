@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import SettingsForm from "./SettingsForm";
 
 export const metadata: Metadata = {
-  title: "settings",
+  title: "Settings",
 };
 
 export default async function Page() {
