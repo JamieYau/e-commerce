@@ -8,37 +8,97 @@ import {
   decimal,
   uuid,
   boolean,
-  pgEnum,
+  primaryKey,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-
-// Enum definitions
-export const userRoleEnum = pgEnum("user_role", ["admin", "customer"]);
-export const orderStatusEnum = pgEnum("order_status", [
-  "pending",
-  "processing",
-  "shipped",
-  "delivered",
-  "cancelled",
-]);
-export const addressTypeEnum = pgEnum("address_type", ["billing", "shipping"]);
+import { AdapterAccountType } from "next-auth/adapters";
 
 export const users = pgTable("users", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  username: varchar("username", { length: 255 }).notNull().unique(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
-  password: varchar("password", { length: 255 }).notNull(),
-  role: varchar("role", { length: 50 }).notNull().default("customer"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text("name"),
+  email: text("email").notNull(),
+  emailVerified: timestamp("emailVerified", { mode: "date" }),
+  image: text("image"),
+  role: varchar("role", { enum: ["admin", "customer"] })
+    .notNull()
+    .default("customer"),
 });
+
+export const accounts = pgTable(
+  "accounts",
+  {
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: text("type").$type<AdapterAccountType>().notNull(),
+    provider: text("provider").notNull(),
+    providerAccountId: text("providerAccountId").notNull(),
+    refresh_token: text("refresh_token"),
+    access_token: text("access_token"),
+    expires_at: integer("expires_at"),
+    token_type: text("token_type"),
+    scope: text("scope"),
+    id_token: text("id_token"),
+    session_state: text("session_state"),
+  },
+  (account) => ({
+    compoundKey: primaryKey({
+      columns: [account.provider, account.providerAccountId],
+    }),
+  })
+);
+
+export const sessions = pgTable("sessions", {
+  sessionToken: text("sessionToken").primaryKey(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
+});
+
+export const verificationTokens = pgTable(
+  "verificationTokens",
+  {
+    identifier: text("identifier").notNull(),
+    token: text("token").notNull(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+  },
+  (verificationToken) => ({
+    compositePk: primaryKey({
+      columns: [verificationToken.identifier, verificationToken.token],
+    }),
+  })
+);
+
+export const authenticators = pgTable(
+  "authenticators",
+  {
+    credentialID: text("credentialID").notNull().unique(),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    providerAccountId: text("providerAccountId").notNull(),
+    credentialPublicKey: text("credentialPublicKey").notNull(),
+    counter: integer("counter").notNull(),
+    credentialDeviceType: text("credentialDeviceType").notNull(),
+    credentialBackedUp: boolean("credentialBackedUp").notNull(),
+    transports: text("transports"),
+  },
+  (authenticators) => ({
+    compositePK: primaryKey({
+      columns: [authenticators.userId, authenticators.credentialID],
+    }),
+  })
+);
 
 export const addresses = pgTable("addresses", {
   id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
+  userId: text("user_id")
     .references(() => users.id)
     .notNull(),
-  type: varchar("type", { length: 50 }).notNull(), // e.g., 'billing', 'shipping'
+  type: varchar("type", { enum: ["billing", "shipping"] }).notNull(),
   address_line_1: varchar("address_line_1", { length: 255 }).notNull(),
   address_line_2: varchar("address_line_2", { length: 255 }),
   country: varchar("country", { length: 100 }).notNull(),
@@ -78,10 +138,12 @@ export const products = pgTable("products", {
 
 export const orders = pgTable("orders", {
   id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
+  userId: text("user_id")
     .references(() => users.id)
     .notNull(),
-  status: varchar("status", { length: 50 }).notNull(),
+  status: varchar("status", {
+    enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
+  }).notNull(),
   shippingAddressId: uuid("shipping_address_id")
     .references(() => addresses.id)
     .notNull(),
@@ -107,7 +169,7 @@ export const reviews = pgTable("reviews", {
   productId: uuid("product_id")
     .references(() => products.id)
     .notNull(),
-  userId: uuid("user_id")
+  userId: text("user_id")
     .references(() => users.id)
     .notNull(),
   rating: integer("rating").notNull(),
@@ -117,7 +179,7 @@ export const reviews = pgTable("reviews", {
 
 export const carts = pgTable("carts", {
   id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
+  userId: text("user_id")
     .references(() => users.id)
     .notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
