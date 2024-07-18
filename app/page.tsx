@@ -1,7 +1,9 @@
+import Hero from "@/components/Hero";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>E-Commerce Store</h1>
+    <main className="flex flex-1 min-h-full flex-col items-center justify-between">
+      <Hero />
     </main>
   );
 }
