@@ -59,8 +59,8 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased flex flex-col",
-          fontSans.variable
+          "flex min-h-screen flex-col bg-background font-sans antialiased",
+          fontSans.variable,
         )}
       >
         <SessionProvider>
