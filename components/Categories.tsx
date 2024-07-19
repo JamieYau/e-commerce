@@ -5,7 +5,7 @@ import CategoryCard from "./CategoryCard";
 export default async function Categories() {
   const categories = await getCategories();
   return (
-    <section className="w-full p-4 sm:p-6 md:p-8">
+    <section className="w-full p-2 max-w-7xl m-auto">
       <h2 className="mb-4 text-2xl font-bold">Shop by Categories</h2>
       <Link
         href="/products"
@@ -13,9 +13,9 @@ export default async function Categories() {
       >
         Show All
       </Link>
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         {categories.map((category) => (
-          <li key={category.id} className="list-none">
+          <li key={category.id}>
             <CategoryCard category={category} />
           </li>
         ))}

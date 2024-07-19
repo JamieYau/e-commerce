@@ -1,12 +1,13 @@
 import { Category } from "@/types/db";
 import Image from "next/image";
+import Link from "next/link";
 
 type CategoryCardProps = {
   category: Category;
 };
 export default function CategoryCard({ category }: CategoryCardProps) {
   return (
-    <div className="flex h-full flex-col justify-between rounded-lg bg-white p-4 shadow-md">
+    <Link href="/products" className="flex h-full flex-col justify-between rounded-lg bg-white p-4 shadow-md">
       <h3 className="mb-2 text-lg font-semibold">{category.name}</h3>
       {category.imageUrl && (
         <Image
@@ -16,6 +17,6 @@ export default function CategoryCard({ category }: CategoryCardProps) {
         />
       )}
       <p className="text-sm text-gray-600">{category.description}</p>
-    </div>
+    </Link>
   );
 }
