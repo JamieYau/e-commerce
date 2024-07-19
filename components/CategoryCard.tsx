@@ -7,7 +7,10 @@ type CategoryCardProps = {
 };
 export default function CategoryCard({ category }: CategoryCardProps) {
   return (
-    <Link href="/products" className="flex h-full flex-col justify-between rounded-lg bg-white p-4 shadow-md">
+    <Link
+      href="/products"
+      className="flex h-full flex-col justify-between rounded-lg bg-white p-4 shadow-md"
+    >
       <h3 className="mb-2 text-lg font-semibold">{category.name}</h3>
       {category.imageUrl && (
         <Image
