@@ -12,14 +12,20 @@ export default function NavBar() {
   const user = session.data?.user;
 
   return (
-    <header className="shadow-sm z-10 p-2">
-      <nav className="flex w-full max-w-7xl items-center justify-between gap-3 mx-auto h-14">
+    <header className="z-10 p-2 shadow-sm">
+      <nav className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-3">
         <Link href="/">
-          <Image src="/images/logo-black.png" alt="techwave" width={200} height={39} priority/>
+          <Image
+            src="/images/logo-black.png"
+            alt="techwave"
+            width={200}
+            height={39}
+            priority
+          />
         </Link>
         {user && <UserButton user={user} />}
         {session.status === "loading" && (
-          <Skeleton className="rounded-full h-10 w-10" />
+          <Skeleton className="h-10 w-10 rounded-full" />
         )}
         {!user && session.status !== "loading" && <SignInButton />}
       </nav>
