@@ -111,16 +111,17 @@ async function seed() {
     // Phones
     {
       id: uuidv4(),
-      name: "iPhone 14 Pro",
+      name: "iPhone 15 Pro",
       description: "Pro. Beyond.",
       price: "999.0",
       stock: 200,
       categoryId: categoryData[3].id,
       brand: "Apple",
-      imageUrl: "https://example.com/iphone-14-pro.jpg",
+      imageUrl:
+        "https://mockupfree.net/wp-content/uploads/2023/07/04-2-scaled.jpg",
       specs: {
         display: "6.1-inch Super Retina XDR display",
-        chip: "A16 Bionic chip",
+        chip: "A17 Pro chip",
         camera:
           "Pro camera system (48MP Main, 12MP Ultra Wide, 12MP Telephoto)",
         frontCamera: "12MP TrueDepth front camera",
