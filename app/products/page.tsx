@@ -1,18 +1,16 @@
-import { getProducts } from "@/actions/productActions";
-import ProductCard from "@/components/ProductCard";
+import Products from "@/components/Products";
+import { Suspense } from "react";
+import Loading from "./loading";
 
-export default async function page() {
-  const products = await getProducts();
+export default function page() {
   return (
-    <main className="flex min-h-full flex-1 flex-col items-center justify-between">
-      <h1>All Products</h1>
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-        {products.map((product) => (
-          <li key={product.id} className="border">
-            <ProductCard product={product} />
-          </li>
-        ))}
-      </ul>
+    <main className="flex min-h-full w-full flex-1 flex-col items-center p-4">
+      <h1 className="my-8 text-3xl font-bold">All Products</h1>
+      <div className="mx-auto w-full max-w-7xl">
+        <Suspense fallback={<Loading />}>
+          <Products />
+        </Suspense>
+      </div>
     </main>
   );
 }
