@@ -12,7 +12,7 @@ export default function NavBar() {
   const user = session.data?.user;
 
   return (
-    <header className="z-10 p-2 shadow-sm">
+    <header className="z-10 py-2 px-4 shadow-sm">
       <nav className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-3">
         <Link href="/">
           <Image
