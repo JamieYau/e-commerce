@@ -20,7 +20,6 @@ export default function ProductCard({ product }: ProductCardProps) {
         />
       </AspectRatio>
       <h3 className="font-bold">{product.name}</h3>
-      <p className="text-sm font-light">{product.description}</p>
       <p>£{product.price}</p>
     </Link>
   );

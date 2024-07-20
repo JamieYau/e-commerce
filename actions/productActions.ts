@@ -1,6 +1,6 @@
 import db from "@/db/db";
 import { products } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, notInArray, sql } from "drizzle-orm";
 
 export const getProducts = async () => {
   const result = await db.select().from(products);
@@ -19,4 +19,17 @@ export const getProduct = async (id: string) => {
     },
   });
   return result;
+};
+
+export const getRecommendedProducts = async (
+  currentProductId: string,
+  limit: number = 4,
+) => {
+  const recommendedProducts = await db.query.products.findMany({
+    where: notInArray(products.id, [currentProductId]),
+    limit: limit,
+    orderBy: sql`RANDOM()`,
+  });
+
+  return recommendedProducts;
 };

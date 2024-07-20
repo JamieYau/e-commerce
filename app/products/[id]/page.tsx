@@ -8,6 +8,7 @@ import { badges } from "@/lib/badgeData";
 import { ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import Recommended from "@/components/Recommended";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const product = await getProduct(params.id);
@@ -80,6 +81,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </article>
         {/* Extra Details */}
         <ProductTabs product={product} />
+        <Recommended product={product} />
       </div>
     </main>
   );
