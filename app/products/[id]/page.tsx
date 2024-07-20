@@ -1,9 +1,10 @@
 import { getProduct } from "@/actions/productActions";
 import Badge from "@/components/Badge";
+import ProductTabs from "@/components/ProductTabs";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { badges } from "@/lib/badgeData";
-import { Headset, ShieldCheck, ShoppingCart, Star, Truck, Undo2 } from "lucide-react";
+import { ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -17,9 +18,9 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <main className="min-h-full w-full flex-1 p-4">
       <div className="m-auto max-w-7xl p-4 sm:p-8">
-        <div className="md:flex md:gap-12">
+        <article className="md:flex md:gap-12">
           {/* Product Image */}
-          <div className="mb-4 md:mb-0 md:w-1/2">
+          <figure className="mb-4 md:mb-0 md:w-1/2">
             <img
               src={product.imageUrl || "/images/placeholder.png"}
               alt={product.name}
@@ -47,9 +48,9 @@ export default async function Page({ params }: { params: { id: string } }) {
                 className="w-full rounded border-4"
               />
             </div>
-          </div>
+          </figure>
           {/* Product Details */}
-          <div className="md:w-1/2">
+          <section className="md:w-1/2">
             <h1 className="text-2xl font-bold">{product.name}</h1>
             <div className="mb-2 text-sm">
               <span>{product.category.name}</span>
@@ -79,11 +80,10 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <Badge key={index} icon={badge.icon} label={badge.label} />
               ))}
             </ul>
-          </div>
-        </div>
-        <div>
-          
-        </div>
+          </section>
+        </article>
+        {/* Extra Details */}
+        <ProductTabs product={product}/>
       </div>
     </main>
   );
