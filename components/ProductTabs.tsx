@@ -39,14 +39,16 @@ export default function ProductTabs({ product }: ProductTabsProps) {
         {product.specs && (
           <>
             <h3 className="mb-2 mt-4 text-lg font-semibold">Specifications</h3>
-            <ul className="flex flex-col gap-1">
+            <table className="">
               {Object.entries(product.specs).map(([key, value], index) => (
-                <li key={index}>
-                  <strong>{key}: </strong>
-                  {value}
-                </li>
+                <tr key={index} className="border-y border-gray-300">
+                  <td className="bg-slate-100 py-1 pl-2 pr-10 font-semibold">
+                    {key}
+                  </td>
+                  <td className="px-4">{value}</td>
+                </tr>
               ))}
-            </ul>
+            </table>
           </>
         )}
       </TabsContent>
