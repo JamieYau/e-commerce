@@ -3,6 +3,7 @@ import Badge from "@/components/Badge";
 import ProductTabs from "@/components/ProductTabs";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { badges } from "@/lib/badgeData";
 import { ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
@@ -21,32 +22,47 @@ export default async function Page({ params }: { params: { id: string } }) {
         <article className="md:flex md:gap-12">
           {/* Product Image */}
           <figure className="mb-4 md:mb-0 md:w-1/2">
-            <img
-              src={product.imageUrl || "/images/placeholder.png"}
-              alt={product.name}
-              className="rounded border-4 object-cover"
-            />
+            <AspectRatio ratio={4 / 3}>
+              <Image
+                src={product.imageUrl || "/images/placeholder.png"}
+                alt={product.name}
+                fill
+                className="rounded border-4 object-cover"
+              />
+            </AspectRatio>
             <div className="mt-2 grid grid-cols-4 gap-2">
-              <img
-                src="/images/placeholder.png"
-                alt="Side view"
-                className="w-full rounded border-4"
-              />
-              <img
-                src="/images/placeholder.png"
-                alt="Front view"
-                className="w-full rounded border-4"
-              />
-              <img
-                src="/images/placeholder.png"
-                alt="Angle view"
-                className="w-full rounded border-4"
-              />
-              <img
-                src="/images/placeholder.png"
-                alt="Alt view"
-                className="w-full rounded border-4"
-              />
+              <AspectRatio ratio={3 / 2}>
+                <Image
+                  src="/images/placeholder.png"
+                  alt="Side view"
+                  fill
+                  className="w-full rounded border-4 object-cover"
+                />
+              </AspectRatio>
+              <AspectRatio ratio={3 / 2}>
+                <Image
+                  src="/images/placeholder.png"
+                  alt="Front view"
+                  fill
+                  className="w-full rounded border-4 object-cover"
+                />
+              </AspectRatio>
+              <AspectRatio ratio={3 / 2}>
+                <Image
+                  src="/images/placeholder.png"
+                  alt="Angle view"
+                  fill
+                  className="w-full rounded border-4 object-cover"
+                />
+              </AspectRatio>
+              <AspectRatio ratio={3 / 2}>
+                <Image
+                  src="/images/placeholder.png"
+                  alt="Alt view"
+                  fill
+                  className="w-full rounded border-4 object-cover"
+                />
+              </AspectRatio>
             </div>
           </figure>
           {/* Product Details */}
@@ -83,7 +99,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           </section>
         </article>
         {/* Extra Details */}
-        <ProductTabs product={product}/>
+        <ProductTabs product={product} />
       </div>
     </main>
   );
