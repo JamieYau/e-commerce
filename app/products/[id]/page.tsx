@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main className="min-h-full w-full flex-1 p-4">
-      <div className="m-auto max-w-7xl p-4 sm:p-8">
+      <div className="m-auto w-full max-w-7xl p-4 sm:p-8">
         <article className="md:flex md:gap-12">
           {/* Product Image */}
           <figure className="mb-4 md:mb-0 md:w-1/2">
@@ -27,42 +27,22 @@ export default async function Page({ params }: { params: { id: string } }) {
                 src={product.imageUrl || "/images/placeholder.png"}
                 alt={product.name}
                 fill
+                sizes="(min-width: 1380px) 576px, (min-width: 780px) calc(45.86vw - 48px), (min-width: 640px) calc(100vw - 104px), calc(100vw - 72px)"
                 className="rounded border-4 object-cover"
               />
             </AspectRatio>
             <div className="mt-2 grid grid-cols-4 gap-2">
-              <AspectRatio ratio={3 / 2}>
-                <Image
-                  src="/images/placeholder.png"
-                  alt="Side view"
-                  fill
-                  className="w-full rounded border-4 object-cover"
-                />
-              </AspectRatio>
-              <AspectRatio ratio={3 / 2}>
-                <Image
-                  src="/images/placeholder.png"
-                  alt="Front view"
-                  fill
-                  className="w-full rounded border-4 object-cover"
-                />
-              </AspectRatio>
-              <AspectRatio ratio={3 / 2}>
-                <Image
-                  src="/images/placeholder.png"
-                  alt="Angle view"
-                  fill
-                  className="w-full rounded border-4 object-cover"
-                />
-              </AspectRatio>
-              <AspectRatio ratio={3 / 2}>
-                <Image
-                  src="/images/placeholder.png"
-                  alt="Alt view"
-                  fill
-                  className="w-full rounded border-4 object-cover"
-                />
-              </AspectRatio>
+              {new Array(4).fill(0).map((_, index) => (
+                <AspectRatio ratio={3 / 2} key={index}>
+                  <Image
+                    src="/images/placeholder.png"
+                    alt="Alt view"
+                    fill
+                    sizes="(min-width: 1380px) 132px, (min-width: 780px) calc(11.38vw - 23px), (min-width: 640px) calc(25vw - 38px), calc(25vw - 30px)"
+                    className="w-full rounded border-4 object-cover"
+                  />
+                </AspectRatio>
+              ))}
             </div>
           </figure>
           {/* Product Details */}
