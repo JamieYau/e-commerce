@@ -10,6 +10,13 @@ export const getProducts = async () => {
 export const getProduct = async (id: string) => {
   const result = await db.query.products.findFirst({
     where: eq(products.id, id),
+    with: {
+      category: {
+        columns: {
+          name: true,
+        },
+      },
+    },
   });
   return result;
 };

@@ -46,7 +46,10 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
         {/* Product Details */}
         <div className="md:w-1/2">
-          <h1 className="mb-2 text-2xl font-bold">{product.name}</h1>
+          <h1 className="text-2xl font-bold">{product.name}</h1>
+          <div className="mb-2 text-sm">
+            <span>{product.category.name}</span>
+          </div>
           <div className="mb-2 flex items-center">
             <div className="flex text-yellow-400">
               {[...Array(5)].map((_, i) => (
