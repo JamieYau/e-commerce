@@ -10,6 +10,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import Recommended from "@/components/Recommended";
 import Reviews from "@/components/Reviews";
+import StarRating from "@/components/StarRating";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const product = await getProduct(params.id);
@@ -54,12 +55,10 @@ export default async function Page({ params }: { params: { id: string } }) {
               <span>{product.category.name}</span>
             </div>
             <div className="mb-2 flex items-center">
-              <div className="flex text-yellow-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-current" />
-                ))}
-              </div>
-              <span className="ml-2 text-muted-foreground">132 reviews</span>
+              <StarRating rating={product.avgRating} />
+              <span className="ml-2 text-muted-foreground">
+                {product.totalReviews} reviews
+              </span>
             </div>
             <div className="mb-4">{product.description}</div>
             <div className="mb-4">
