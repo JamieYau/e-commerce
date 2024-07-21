@@ -129,7 +129,7 @@ export const products = pgTable("products", {
     .notNull(),
   brand: varchar("brand", { length: 100 }).notNull(),
   imageUrl: varchar("image_url", { length: 2083 }),
-  specs: jsonb("specs"),
+  specs: jsonb("specs").$type<{[key: string]: string}>(),
   stripeProductId: varchar("stripe_product_id", { length: 255 }),
   stripePriceId: varchar("stripe_price_id", { length: 255 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),

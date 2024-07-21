@@ -5,7 +5,7 @@ import CategoryCard from "./CategoryCard";
 export default async function Categories() {
   const categories = await getCategories();
   return (
-    <section className="m-auto w-full max-w-7xl p-2">
+    <section className="w-full my-8">
       <h2 className="mb-4 text-2xl font-bold">Shop by Categories</h2>
       <Link
         href="/products"
