@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Product } from "@/types/db";
+import { camelToTitleCase } from "@/lib/utils";
 
 type ProductTabsProps = {
   product: Product;
@@ -39,12 +40,12 @@ export default function ProductTabs({ product }: ProductTabsProps) {
         {product.specs && (
           <>
             <h3 className="mb-2 mt-4 text-lg font-semibold">Specifications</h3>
-            <table className="">
+            <table>
               <tbody>
                 {Object.entries(product.specs).map(([key, value], index) => (
                   <tr key={index} className="border-y border-gray-300">
                     <td className="bg-slate-100 py-1 pl-2 pr-10 font-semibold">
-                      {key}
+                      {camelToTitleCase(key)}
                     </td>
                     <td className="px-4">{value}</td>
                   </tr>
