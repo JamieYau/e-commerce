@@ -11,6 +11,15 @@ import { notFound } from "next/navigation";
 import Recommended from "@/components/Recommended";
 import Reviews from "@/components/Reviews";
 import StarRating from "@/components/StarRating";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Link from "next/link";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const product = await getProduct(params.id);
@@ -22,6 +31,26 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <main className="min-h-full w-full flex-1 p-4">
       <div className="m-auto w-full max-w-7xl p-4 sm:p-8">
+        <Breadcrumb className="mb-4">
+          <BreadcrumbList className="gap-1">
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              {/* Make link use category search param */}
+              <BreadcrumbLink asChild>
+                <Link href="/products"> {product.category.name}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{product.name}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
         <article className="md:flex md:gap-12">
           {/* Product Image */}
           <figure className="mb-4 md:mb-0 md:w-1/2">
