@@ -9,7 +9,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <Link href={`products/${product.id}`} className="flex flex-col gap-2">
+    <Link href={`/products/${product.id}`} className="flex flex-col gap-2">
       <AspectRatio ratio={4 / 3} className="w-full">
         <Image
           src={product.imageUrl || "/images/placeholder.png"}
