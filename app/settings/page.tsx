@@ -15,11 +15,9 @@ export default async function Page() {
     redirect("/api/auth/signin?callbackUrl=/settings");
   }
   return (
-    <main>
-      <section>
-        <h1>Settings Page</h1>
-        <SettingsForm user={user} />
-      </section>
-    </main>
+    <section className="mx-auto">
+      <h1>Settings Page</h1>
+      <SettingsForm user={user} />
+    </section>
   );
 }

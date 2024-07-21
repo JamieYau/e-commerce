@@ -50,7 +50,7 @@ async function seed() {
       stock: 100,
       categoryId: categoryData[0].id,
       brand: "Apple",
-      imageUrl: "https://example.com/apple-watch-series-8.jpg",
+      imageUrl: "",
       specs: {
         display: "Always-On Retina LTPO OLED display",
         processor: "S8 SiP with 64-bit dual-core processor",
@@ -66,7 +66,7 @@ async function seed() {
       stock: 75,
       categoryId: categoryData[0].id,
       brand: "Samsung",
-      imageUrl: "https://example.com/samsung-galaxy-watch5.jpg",
+      imageUrl: "/",
       specs: {
         display: "Super AMOLED",
         processor: "Exynos W920 Dual-Core 1.18GHz",
@@ -83,7 +83,7 @@ async function seed() {
       stock: 50,
       categoryId: categoryData[1].id,
       brand: "LG",
-      imageUrl: "https://example.com/lg-c2-oled-tv.jpg",
+      imageUrl: "",
       specs: {
         resolution: "4K Ultra HD (3840 x 2160)",
         hdrFormat: "Dolby Vision, HDR10, HLG",
@@ -100,7 +100,7 @@ async function seed() {
       stock: 120,
       categoryId: categoryData[2].id,
       brand: "Apple",
-      imageUrl: "https://example.com/ipad-air-5th-gen.jpg",
+      imageUrl: "",
       specs: {
         display: "10.9-inch Liquid Retina display",
         chip: "M1 chip",
@@ -117,8 +117,7 @@ async function seed() {
       stock: 200,
       categoryId: categoryData[3].id,
       brand: "Apple",
-      imageUrl:
-        "https://mockupfree.net/wp-content/uploads/2023/07/04-2-scaled.jpg",
+      imageUrl: "/images/products/iphone-15-pro.png",
       specs: {
         display: "6.1-inch Super Retina XDR display",
         chip: "A17 Pro chip",
@@ -135,7 +134,7 @@ async function seed() {
       stock: 150,
       categoryId: categoryData[3].id,
       brand: "Samsung",
-      imageUrl: "https://example.com/samsung-galaxy-s23-ultra.jpg",
+      imageUrl: "",
       specs: {
         display: '6.8" Edge Quad HD+ Dynamic AMOLED 2X Display',
         processor: "Snapdragon® 8 Gen 2 Mobile Platform",
@@ -152,7 +151,7 @@ async function seed() {
       stock: 80,
       categoryId: categoryData[4].id,
       brand: "Apple",
-      imageUrl: "https://example.com/macbook-air-m2.jpg",
+      imageUrl: "",
       specs: {
         display: "13.6-inch Liquid Retina display",
         chip: "Apple M2 chip",
@@ -169,7 +168,7 @@ async function seed() {
       stock: 300,
       categoryId: categoryData[5].id,
       brand: "Apple",
-      imageUrl: "https://example.com/airpods-pro-2nd-gen.jpg",
+      imageUrl: "",
       specs: {
         chipset: "H2 chip",
         sweatAndWaterResistant: "Yes (IPX4)",

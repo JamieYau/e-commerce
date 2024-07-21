@@ -65,7 +65,9 @@ export default function RootLayout({
       >
         <SessionProvider>
           <NavBar />
-          {children}
+          <main className="flex min-h-full w-full flex-1 flex-col items-center justify-between p-4">
+            {children}
+          </main>
           <Toaster />
         </SessionProvider>
       </body>
