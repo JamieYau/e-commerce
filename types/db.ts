@@ -3,4 +3,9 @@ import { cartItems, categories, products } from "@/db/schema";
 
 export type Category = InferSelectModel<typeof categories>;
 export type Product = InferSelectModel<typeof products>;
-export type CartItem = InferSelectModel<typeof cartItems>;
+export type CartItemBase = InferSelectModel<typeof cartItems>;
+
+// Extend the CartItem type to include the Product
+export type CartItem = CartItemBase & {
+  product: Product;
+};
