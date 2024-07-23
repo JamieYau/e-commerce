@@ -20,6 +20,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import AddToCartButton from "@/components/AddToCartButton";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const product = await getProduct(params.id);
@@ -90,10 +91,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <span className="text-3xl font-semibold">GBP £{product.price}</span>
           </div>
 
-          <Button variant={"default"} className="w-44">
-            <ShoppingCart className="mr-2 h-4 w-4" />
-            Add to cart
-          </Button>
+          <AddToCartButton productId={product.id} productName={product.name} />
           <Separator className="my-8" />
           <ul className="grid grid-cols-2 gap-y-6">
             {badges.map((badge, index) => (
