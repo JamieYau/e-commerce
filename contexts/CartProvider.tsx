@@ -3,22 +3,27 @@
 import { ReactNode, useState, useEffect, createContext } from "react";
 import { useSession } from "next-auth/react";
 import * as cartActions from "@/actions/cartActions";
-import { CartItem } from "@/types/db";
-import { CartContextType } from "@/types/cart";
+import { Cart } from "@/types/db";
+
+export interface CartContextType {
+  cart: Cart | null;
+  addToCart: (productId: string, quantity: number) => Promise<void>;
+  removeFromCart: (productId: string) => Promise<void>;
+  updateQuantity: (productId: string, quantity: number) => Promise<void>;
+  clearCart: () => Promise<void>;
+}
 
 export const CartContext = createContext<CartContextType | undefined>(
   undefined,
 );
 
 export default function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<Cart | null>(null);
   const { data: session } = useSession();
 
   useEffect(() => {
     if (session?.user?.id) {
-      cartActions.getOrCreateCart(session.user.id).then((cart) => {
-        setItems(cart.cartItems);
-      });
+      cartActions.getOrCreateCart(session.user.id).then(setCart);
     }
   }, [session]);
 
@@ -29,7 +34,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
         productId,
         quantity,
       );
-      setItems(updatedCart.cartItems);
+      setCart(updatedCart);
     }
   };
 
@@ -39,7 +44,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
         session.user.id,
         productId,
       );
-      setItems(updatedCart.cartItems);
+      setCart(updatedCart);
     }
   };
 
@@ -50,20 +55,20 @@ export default function CartProvider({ children }: { children: ReactNode }) {
         productId,
         quantity,
       );
-      setItems(updatedCart.cartItems);
+      setCart(updatedCart);
     }
   };
 
   const clearCart = async () => {
     if (session?.user?.id) {
       const updatedCart = await cartActions.clearCart(session.user.id);
-      setItems(updatedCart.cartItems);
+      setCart(updatedCart);
     }
   };
 
   return (
     <CartContext.Provider
-      value={{ items, addToCart, removeFromCart, updateQuantity, clearCart }}
+      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart }}
     >
       {children}
     </CartContext.Provider>

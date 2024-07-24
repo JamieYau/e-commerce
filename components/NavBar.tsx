@@ -17,12 +17,13 @@ export default function NavBar() {
     <header className="z-10 px-4 py-2 shadow-sm">
       <nav className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-3">
         <Link href="/" className="w-40">
-          <AspectRatio ratio={5/1}>
+          <AspectRatio ratio={5 / 1}>
             <Image
               src="/images/logo-black.png"
               alt="techwave"
               fill
               className="object-fill"
+              sizes="160px"
             />
           </AspectRatio>
         </Link>

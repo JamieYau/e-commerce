@@ -59,6 +59,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               src={product.imageUrl || "/images/placeholder.png"}
               alt={product.name}
               fill
+              priority
               sizes="(min-width: 1380px) 576px, (min-width: 780px) calc(45.86vw - 48px), (min-width: 640px) calc(100vw - 104px), calc(100vw - 72px)"
               className="rounded border-4 object-cover"
             />
