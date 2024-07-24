@@ -15,7 +15,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           src={product.imageUrl || "/images/placeholder.png"}
           alt={product.name}
           fill
-          sizes="(min-width: 1400px) 414px, (min-width: 780px) 29.5vw, (min-width: 640px) calc(50vw - 26px), calc(100vw - 34px)"
+          sizes="(min-width: 1380px) 290px, (min-width: 780px) calc(22.93vw - 22px), (min-width: 640px) calc(50vw - 58px), calc(50vw - 42px)"
           className="object-cover"
         />
       </AspectRatio>
