@@ -43,7 +43,7 @@ export default function CartPreview() {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent className="sm:min-w-[450px]">
+      <SheetContent className="flex flex-col overflow-y-auto sm:min-w-[450px]">
         <SheetHeader>
           <SheetTitle>Your Cart</SheetTitle>
           <SheetDescription className="hidden">
@@ -51,7 +51,7 @@ export default function CartPreview() {
             to purchase.
           </SheetDescription>
         </SheetHeader>
-        <div className="mt-4 flex flex-col gap-4">
+        <div className="flex flex-grow flex-col gap-4">
           {cartItems.map((item) => (
             <div key={item.id} className="grid grid-cols-10 grid-rows-3">
               <figure className="col-span-3 row-span-3">
@@ -107,17 +107,21 @@ export default function CartPreview() {
             </div>
           ))}
         </div>
-        <div className="mt-6 flex justify-between">
-          <div className="flex gap-1">
-            <span className="text-lg font-semibold">Subtotal</span>
-            <span className="inline-flex items-center text-sm">{cartSummary(cartItems.length)}</span>
+        <div className="sticky bottom-0 py-6 bg-background">
+          <div className="flex justify-between">
+            <div className="flex gap-1">
+              <span className="text-lg font-semibold">Subtotal</span>
+              <span className="inline-flex items-center text-sm">
+                {cartSummary(cartItems.length)}
+              </span>
+            </div>
+            <p>£{subtotal.toFixed(2)}</p>
           </div>
-          <p>£{subtotal.toFixed(2)}</p>
-        </div>
-        <div className="mt-6">
-          <Link href="/checkout" passHref>
-            <Button className="w-full">Continue to Checkout</Button>
-          </Link>
+          <div className="mt-6">
+            <Link href="/checkout" passHref>
+              <Button className="w-full">Continue to Checkout</Button>
+            </Link>
+          </div>
         </div>
       </SheetContent>
     </Sheet>
