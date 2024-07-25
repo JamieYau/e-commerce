@@ -8,8 +8,8 @@ import { Cart } from "@/types/db";
 export interface CartContextType {
   cart: Cart | null;
   addToCart: (productId: string, quantity: number) => Promise<void>;
-  removeFromCart: (productId: string) => Promise<void>;
-  updateQuantity: (productId: string, quantity: number) => Promise<void>;
+  removeFromCart: (cartItemId: string) => Promise<void>;
+  updateQuantity: (cartItemId: string, quantity: number) => Promise<void>;
   clearCart: () => Promise<void>;
 }
 
@@ -38,21 +38,21 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const removeFromCart = async (productId: string) => {
+  const removeFromCart = async (cartItemId: string) => {
     if (session?.user?.id) {
       const updatedCart = await cartActions.removeFromCart(
         session.user.id,
-        productId,
+        cartItemId,
       );
       setCart(updatedCart);
     }
   };
 
-  const updateQuantity = async (productId: string, quantity: number) => {
+  const updateQuantity = async (cartItemId: string, quantity: number) => {
     if (session?.user?.id) {
       const updatedCart = await cartActions.updateCartItemQuantity(
         session.user.id,
-        productId,
+        cartItemId,
         quantity,
       );
       setCart(updatedCart);

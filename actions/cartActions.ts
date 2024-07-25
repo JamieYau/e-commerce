@@ -53,13 +53,13 @@ export async function addToCart(
   return getOrCreateCart(userId);
 }
 
-export async function removeFromCart(userId: string, productId: string) {
+export async function removeFromCart(userId: string, cartItemId: string) {
   const cart = await getOrCreateCart(userId);
 
   await db
     .delete(cartItems)
     .where(
-      and(eq(cartItems.cartId, cart.id), eq(cartItems.productId, productId)),
+      and(eq(cartItems.cartId, cart.id), eq(cartItems.id, cartItemId)),
     );
 
   return getOrCreateCart(userId);
@@ -67,7 +67,7 @@ export async function removeFromCart(userId: string, productId: string) {
 
 export async function updateCartItemQuantity(
   userId: string,
-  productId: string,
+  cartItemId: string,
   quantity: number,
 ) {
   const cart = await getOrCreateCart(userId);
@@ -76,7 +76,7 @@ export async function updateCartItemQuantity(
     .update(cartItems)
     .set({ quantity })
     .where(
-      and(eq(cartItems.cartId, cart.id), eq(cartItems.productId, productId)),
+      and(eq(cartItems.cartId, cart.id), eq(cartItems.id, cartItemId)),
     );
 
   return getOrCreateCart(userId);
