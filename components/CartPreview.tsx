@@ -14,9 +14,13 @@ import useCart from "@/contexts/useCart";
 import { AspectRatio } from "./ui/aspect-ratio";
 import Image from "next/image";
 import { cartSummary } from "@/lib/utils";
+import { useToast } from "./ui/use-toast";
+import { CartItem } from "@/types/db";
 
 export default function CartPreview() {
   const { cart, removeFromCart, updateQuantity } = useCart();
+  const { toast } = useToast();
+
   // Accessing cart cartItems
   const cartItems = cart?.cartItems || [];
   const cartItemsCount = cartItems.reduce(
@@ -27,6 +31,23 @@ export default function CartPreview() {
     (total, item) => total + parseFloat(item.product.price) * item.quantity,
     0,
   );
+
+  const handleRemoveFromCart = async (item: CartItem) => {
+    try {
+      await removeFromCart(item.id);
+      toast({
+        title: "Removed from cart",
+        description: `${item.product.name} has been removed from your cart.`,
+        duration: 1000,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to remove item from your cart. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <Sheet>
@@ -73,7 +94,7 @@ export default function CartPreview() {
                   size="sm"
                   variant="ghost"
                   className="ml-auto h-4 w-4 p-0"
-                  onClick={() => removeFromCart(item.id)}
+                  onClick={() => handleRemoveFromCart(item)}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -107,7 +128,7 @@ export default function CartPreview() {
             </div>
           ))}
         </div>
-        <div className="sticky bottom-0 py-6 bg-background">
+        <div className="sticky bottom-0 bg-background py-6 border-t">
           <div className="flex justify-between">
             <div className="flex gap-1">
               <span className="text-lg font-semibold">Subtotal</span>
