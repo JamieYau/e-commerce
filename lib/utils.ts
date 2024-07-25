@@ -11,3 +11,11 @@ export function camelToTitleCase(str: string): string {
   // Capitalize the first letter and trim any leading space
   return spaced.charAt(0).toUpperCase() + spaced.slice(1).trim();
 }
+
+export function cartSummary(numItems: number) {
+  if (numItems === 1) {
+    return "(1 item)";
+  } else {
+    return `(${numItems} items)`;
+  }
+}

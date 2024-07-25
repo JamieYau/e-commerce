@@ -1,10 +1,11 @@
+import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import { cn } from "@/lib/utils";
 import NavBar from "@/components/NavBar";
 import { Toaster } from "@/components/ui/toaster";
 import { SessionProvider } from "next-auth/react";
+import CartProvider from "@/contexts/CartProvider";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -64,11 +65,13 @@ export default function RootLayout({
         )}
       >
         <SessionProvider>
-          <NavBar />
-          <main className="flex min-h-full w-full flex-1 flex-col items-center justify-between p-4">
-            {children}
-          </main>
-          <Toaster />
+          <CartProvider>
+            <NavBar />
+            <main className="flex min-h-full w-full flex-1 flex-col items-center justify-between p-4">
+              {children}
+            </main>
+            <Toaster />
+          </CartProvider>
         </SessionProvider>
       </body>
     </html>

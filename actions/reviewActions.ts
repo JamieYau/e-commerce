@@ -1,3 +1,5 @@
+"use server";
+
 import db from "@/db/db";
 import { reviews } from "@/db/schema";
 import { desc, eq, sql } from "drizzle-orm";
