@@ -60,7 +60,7 @@ async function seed() {
     },
     {
       id: uuidv4(),
-      name: "Samsung Galaxy Watch5",
+      name: "Samsung Galaxy Watch 5",
       description: "Advanced sleep coaching. Enhanced GPS performance.",
       price: "279.99",
       stock: 75,
