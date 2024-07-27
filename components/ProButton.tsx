@@ -18,23 +18,30 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import useCart from "@/contexts/useCart";
 
 export default function ProButton() {
+  const { cart } = useCart();
   const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "",
   );
 
   const fetchClientSecret = useCallback(async () => {
+    if (!cart?.id) {
+      throw new Error("Cart ID is required");
+    }
+
     // Create a Checkout Session
     return fetch("/api/payment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ cartId: cart.id }), // Include cartId in the body
     })
       .then((res) => res.json())
       .then((data) => data.client_secret);
-  }, []);
+  }, [cart?.id]);
 
   const options = { fetchClientSecret };
 
@@ -47,10 +54,10 @@ export default function ProButton() {
       </DialogTrigger>
       <DialogContent className="my-4 py-12 xl:max-w-screen-xl">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">
-            Payment
-          </DialogTitle>
-          <DialogDescription className="hidden">Payment modal.</DialogDescription>
+          <DialogTitle className="text-xl font-semibold">Payment</DialogTitle>
+          <DialogDescription className="hidden">
+            Payment modal.
+          </DialogDescription>
         </DialogHeader>
 
         <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>

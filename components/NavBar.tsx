@@ -22,6 +22,7 @@ export default function NavBar() {
               src="/images/logo-black.png"
               alt="techwave"
               fill
+              priority
               className="object-fill"
               sizes="160px"
             />

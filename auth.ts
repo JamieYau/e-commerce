@@ -15,10 +15,9 @@ import { Adapter } from "next-auth/adapters";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
-  // add logo for sign in
-  // theme: {
-  //     logo:""
-  // },
+  theme: {
+      logo:"/favicons/android-chrome-192x192.png"
+  },
   adapter: DrizzleAdapter(db, {
     usersTable: users,
     accountsTable: accounts,
