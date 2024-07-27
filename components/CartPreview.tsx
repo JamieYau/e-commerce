@@ -1,9 +1,11 @@
 import { ShoppingCart, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -64,7 +66,7 @@ export default function CartPreview() {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent className="flex flex-col overflow-y-auto sm:min-w-[450px]">
+      <SheetContent className="flex flex-col overflow-y-auto w-full sm:min-w-[450px] pb-0">
         <SheetHeader>
           <SheetTitle>Your Cart</SheetTitle>
           <SheetDescription className="hidden">
@@ -128,7 +130,7 @@ export default function CartPreview() {
             </div>
           ))}
         </div>
-        <div className="sticky bottom-0 bg-background py-6 border-t">
+        <SheetFooter className="sticky bottom-0 border-t bg-background pt-6 pb-12 gap-6">
           <div className="flex justify-between">
             <div className="flex gap-1">
               <span className="text-lg font-semibold">Subtotal</span>
@@ -138,12 +140,15 @@ export default function CartPreview() {
             </div>
             <p>£{subtotal.toFixed(2)}</p>
           </div>
-          <div className="mt-6">
-            <Link href="/checkout" passHref>
-              <Button className="w-full">Continue to Checkout</Button>
+          <SheetClose asChild>
+            <Link
+              href="/checkout"
+              className={buttonVariants({ variant: "default" })}
+            >
+              Continue to Checkout
             </Link>
-          </div>
-        </div>
+          </SheetClose>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );
