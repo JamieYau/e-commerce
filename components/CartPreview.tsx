@@ -95,7 +95,7 @@ export default function CartPreview() {
                 <Button
                   size="sm"
                   variant="ghost"
-                  className="ml-auto h-4 w-4 p-0"
+                  className="h-4 w-4 p-0"
                   onClick={() => handleRemoveFromCart(item)}
                 >
                   <Trash2 className="h-4 w-4" />
