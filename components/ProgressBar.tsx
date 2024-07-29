@@ -12,12 +12,12 @@ export default function ProgressBar({
 }: {
   currentStage: number;
 }) {
-  const stages = ["Cart", "Shipping", "Payment", "Review"];
+  const stages = ["Cart", "Delivery", "Payment", "Review"];
   const icons = [ShoppingCart, Truck, CreditCard, SquareGanttChart];
 
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="flex w-full max-w-lg items-center justify-between gap-1">
+      <div className="flex w-full max-w-xl items-center justify-between gap-1">
         {stages.map((stage, index) => {
           const Icon = icons[index];
           return (

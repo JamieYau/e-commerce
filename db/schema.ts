@@ -98,7 +98,6 @@ export const addresses = pgTable("addresses", {
   userId: text("user_id")
     .references(() => users.id)
     .notNull(),
-  type: varchar("type", { enum: ["billing", "shipping"] }).notNull(),
   address_line_1: varchar("address_line_1", { length: 255 }).notNull(),
   address_line_2: varchar("address_line_2", { length: 255 }),
   country: varchar("country", { length: 100 }).notNull(),

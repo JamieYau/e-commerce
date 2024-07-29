@@ -24,28 +24,18 @@ export async function POST(request: Request) {
       .innerJoin(products, eq(cartItems.productId, products.id))
       .where(eq(cartItems.cartId, cartId));
 
-    const line_items = fetchedCartItems
-      .map((item) => ({
-        price: item.product.stripePriceId,
-        quantity: item.quantity,
-      }))
-      .filter((item) => item.price !== null) as {
-      price: string;
-      quantity: number;
-    }[];
+    const amount = fetchedCartItems.reduce(
+      (total, item) => total + item.quantity * parseFloat(item.product.price),
+      0,
+    );
 
-    const session = await stripe.checkout.sessions.create({
-      ui_mode: "embedded",
-      line_items,
-      mode: "payment",
-      return_url: `${request.headers.get(
-        "origin",
-      )}/payment-confirmation?session_id={CHECKOUT_SESSION_ID}`,
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(amount * 100), // Amount in cents
+      currency: "gbp",
     });
 
     return NextResponse.json({
-      id: session.id,
-      client_secret: session.client_secret,
+      clientSecret: paymentIntent.client_secret,
     });
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });

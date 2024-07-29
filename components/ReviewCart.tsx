@@ -5,9 +5,14 @@ import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
 import { useToast } from "./ui/use-toast";
 import { CartItem } from "@/types/db";
-import { cartSummary } from "@/lib/utils";
+import { cartSummary, cn } from "@/lib/utils";
 
-export default function ReviewCart({ next }: { next: () => void }) {
+interface ReviewCartProps {
+  className?: string;
+  next: () => void;
+}
+
+export default function ReviewCart({ className, next }: ReviewCartProps) {
   const { cart, updateQuantity, removeFromCart } = useCart();
   const { toast } = useToast();
 
@@ -36,7 +41,7 @@ export default function ReviewCart({ next }: { next: () => void }) {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className={cn("flex flex-col gap-4", className)}>
       <h2 className="text-xl font-semibold">Review Your Cart</h2>
       {cart && (
         <>
@@ -99,7 +104,7 @@ export default function ReviewCart({ next }: { next: () => void }) {
               </div>
             ))}
           </div>
-          <div className="ml-auto flex w-full flex-col gap-4 sm:w-80 sm:bg-muted sm:p-4 sm:border rounded-md">
+          <div className="ml-auto flex w-full flex-col gap-4 rounded-md sm:w-80 sm:border sm:bg-muted sm:p-4">
             <div className="flex justify-between">
               <div className="flex gap-1">
                 <span className="text-lg font-semibold">Subtotal</span>
@@ -109,9 +114,7 @@ export default function ReviewCart({ next }: { next: () => void }) {
               </div>
               <p>£{subtotal.toFixed(2)}</p>
             </div>
-            <Button onClick={next}>
-              Continue to Delivery Address
-            </Button>
+            <Button onClick={next}>Continue to Delivery Address</Button>
           </div>
         </>
       )}
