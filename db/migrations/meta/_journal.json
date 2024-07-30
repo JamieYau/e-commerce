@@ -15,6 +15,27 @@
       "when": 1722200813624,
       "tag": "0001_open_hydra",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1722284584085,
+      "tag": "0002_clammy_blue_blade",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1722285696169,
+      "tag": "0003_glamorous_cobalt_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1722285783390,
+      "tag": "0004_minor_scarlet_spider",
+      "breakpoints": true
     }
   ]
 }

@@ -98,11 +98,12 @@ export const addresses = pgTable("addresses", {
   userId: text("user_id")
     .references(() => users.id)
     .notNull(),
-  address_line_1: varchar("address_line_1", { length: 255 }).notNull(),
-  address_line_2: varchar("address_line_2", { length: 255 }),
+  line1: varchar("line1", { length: 255 }).notNull(),
+  line2: varchar("line2", { length: 255 }),
   country: varchar("country", { length: 100 }).notNull(),
   city: varchar("city", { length: 100 }).notNull(),
-  postalCode: varchar("postal_code", { length: 20 }).notNull(),
+  postal_code: varchar("postal_code", { length: 20 }).notNull(),
+  state: varchar("state", { length: 255 }).notNull(),
   isDefault: boolean("is_default").default(false).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),

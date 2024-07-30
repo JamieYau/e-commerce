@@ -16,6 +16,7 @@ export default function Page() {
   const [currentStage, setCurrentStage] = useState(0);
   const { cart } = useCart();
   const [clientSecret, setClientSecret] = useState("");
+  const [amount, setAmount] = useState(0);
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -26,7 +27,12 @@ export default function Page() {
         body: JSON.stringify({ cartId: cart.id }),
       })
         .then((res) => res.json())
-        .then((data) => setClientSecret(data.clientSecret));
+        .then(
+          (data) => {
+            setClientSecret(data.clientSecret);
+            setAmount(data.amount);
+          }, // Assuming your API returns the amount
+        );
     }
   }, [cart]);
 
@@ -53,6 +59,8 @@ export default function Page() {
                   className={currentStage === 2 ? "block" : "hidden"}
                   next={() => setCurrentStage(3)}
                   prev={() => setCurrentStage(1)}
+                  clientSecret={clientSecret}
+                  amount={amount}
                 />
               </Elements>
             )}
