@@ -9,7 +9,7 @@ import { saveAddress } from "@/actions/addressActions";
 
 interface DeliveryAddressProps {
   className?: string;
-  next: () => void;
+  next: (addressId: string) => void;
   prev: () => void;
 }
 
@@ -39,8 +39,8 @@ export default function DeliveryAddress({
       if (complete) {
         try {
           // Save address using the server action
-          await saveAddress(value.address);
-          next(); // Move to the next stage
+          const address = await saveAddress(value.address);
+          next(address.id); // Move to the next stage
         } catch (error) {
           console.error("Error saving address:", error);
         }

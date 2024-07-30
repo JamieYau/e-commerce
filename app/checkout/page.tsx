@@ -1,5 +1,6 @@
 "use client";
 import DeliveryAddress from "@/components/DeliveryAddress";
+import OrderReview from "@/components/OrderReview";
 import Payment from "@/components/Payment";
 import ProgressBar from "@/components/ProgressBar";
 import ReviewCart from "@/components/ReviewCart";
@@ -17,6 +18,8 @@ export default function Page() {
   const { cart } = useCart();
   const [clientSecret, setClientSecret] = useState("");
   const [amount, setAmount] = useState(0);
+  const [addressId, setAddressId] = useState<string | null>(null);
+  const [paymentIntent, setPaymentIntent] = useState(""); // State to store paymentIntent
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -52,16 +55,34 @@ export default function Page() {
               <Elements stripe={stripePromise} options={options}>
                 <DeliveryAddress
                   className={currentStage === 1 ? "block" : "hidden"}
-                  next={() => setCurrentStage(2)}
+                  next={(addressId) => {
+                    // Capture addressId
+                    setAddressId(addressId);
+                    setCurrentStage(2);
+                  }}
                   prev={() => setCurrentStage(0)}
                 />
                 <Payment
                   className={currentStage === 2 ? "block" : "hidden"}
-                  next={() => setCurrentStage(3)}
+                  next={(intent: string) => {
+                    setPaymentIntent(intent);
+                    setCurrentStage(3);
+                  }}
                   prev={() => setCurrentStage(1)}
                   clientSecret={clientSecret}
                   amount={amount}
+                  addressId={addressId}
                 />
+                {currentStage === 3 && (
+                  <OrderReview
+                    searchParams={{
+                      amount: amount.toString(),
+                      addressId: addressId || "",
+                      payment_intent: paymentIntent,
+                      payment_intent_client_secret: clientSecret,
+                    }}
+                  />
+                )}
               </Elements>
             )}
           </>

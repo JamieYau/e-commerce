@@ -6,13 +6,15 @@ import {
 } from "@stripe/react-stripe-js";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import { createOrder } from "@/actions/orderActions";
 
 interface PaymentProps {
   className?: string;
-  next: () => void;
+  next: (intent: string) => void;
   prev: () => void;
   clientSecret: string;
   amount: number;
+  addressId: string | null; // Ensure addressId can be null initially
 }
 
 export default function Payment({
@@ -21,6 +23,7 @@ export default function Payment({
   className,
   clientSecret,
   amount,
+  addressId,
 }: PaymentProps) {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,19 +48,19 @@ export default function Payment({
       return;
     }
 
-    const { error } = await stripe.confirmPayment({
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       clientSecret,
+      redirect: "if_required",
       confirmParams: {
-        return_url: `${window.location.origin}/payment-success?amount=${amount}`,
+        return_url: `${window.location.origin}/checkout/order-review?amount=${amount}&addressId=${addressId}`,
       },
     });
 
     if (error) {
       setErrorMessage(error.message);
     } else {
-      // The payment UI automatically closes with a success animation.
-      // Your customer is redirected to your `return_url`.
+      next(paymentIntent.id);
     }
 
     setIsSubmitting(false);
