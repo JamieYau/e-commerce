@@ -1,7 +1,6 @@
 "use client";
-import { createOrder } from "@/actions/orderActions";
 import { useStripePromise } from "@/contexts/StripeProvider";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 interface OrderReviewParams {
   addressId: string;
@@ -36,13 +35,8 @@ export default function OrderReview({
           switch (paymentIntent.status) {
             case "succeeded":
               setMessage("Success! Payment received.");
-              try {
-                await createOrder(payment_intent, addressId);
-              } catch (error) {
-                console.error("Order creation failed:", error);
-                setMessage("Order creation failed.");
-              }
               break;
+              
             case "processing":
               setMessage(
                 "Payment processing. We'll update you when payment is received.",

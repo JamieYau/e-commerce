@@ -32,11 +32,13 @@ export async function POST(request: Request) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Amount in cents
       currency: "gbp",
+      metadata: { cartId },
     });
 
     return NextResponse.json({
       clientSecret: paymentIntent.client_secret,
       amount: paymentIntent.amount,
+      paymentIntentId: paymentIntent.id,
     });
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });

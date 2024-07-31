@@ -32,14 +32,30 @@ export default function Page() {
             if (!data.message) {
               setClientSecret(data.clientSecret);
               setAmount(data.amount);
-            }
-            else {
-              console.log(data.message)
+              setPaymentIntent(data.paymentIntentId);
+            } else {
+              console.log(data.message);
             }
           }, // Assuming your API returns the amount
         );
     }
   }, [cart]);
+
+  const updatePaymentIntentWithAddress = async (addressId: string) => {
+    try {
+      const response = await fetch("/api/update-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentIntentId: paymentIntent, addressId }),
+      });
+      const data = await response.json();
+      if (data.error) {
+        console.error("Error updating PaymentIntent:", data.error);
+      }
+    } catch (error) {
+      console.error("Error updating PaymentIntent:", error);
+    }
+  };
 
   const options = {
     clientSecret,
@@ -57,9 +73,9 @@ export default function Page() {
               <Elements stripe={stripePromise} options={options}>
                 <DeliveryAddress
                   className={currentStage === 1 ? "block" : "hidden"}
-                  next={(addressId) => {
-                    // Capture addressId
+                  next={async (addressId) => {
                     setAddressId(addressId);
+                    await updatePaymentIntentWithAddress(addressId);
                     setCurrentStage(2);
                   }}
                   prev={() => setCurrentStage(0)}

@@ -1,19 +1,11 @@
 "use server";
 
-import { auth } from "@/auth";
 import db from "@/db/db";
 import { orders, orderItems, carts, cartItems } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { stripe } from "@/lib/stripe";
 
 export async function createOrder(paymentIntentId: string, addressId: string) {
-  const session = await auth();
-  if (!session || !session.user || !session.user.id) {
-    throw new Error("Unauthorized");
-  }
-
-  const userId = session.user.id;
-
   // Retrieve the Stripe payment intent
   const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
@@ -21,9 +13,14 @@ export async function createOrder(paymentIntentId: string, addressId: string) {
     throw new Error("Payment not completed");
   }
 
-  // Retrieve the user's cart
+  // Retrieve the user's cart based on the metadata in the payment intent
+  const cartId = paymentIntent.metadata.cartId;
+  if (!cartId) {
+    throw new Error("Cart ID not found in payment intent metadata");
+  }
+
   const userCart = await db.query.carts.findFirst({
-    where: eq(carts.userId, userId),
+    where: eq(carts.id, cartId),
   });
 
   if (!userCart) {
@@ -46,7 +43,7 @@ export async function createOrder(paymentIntentId: string, addressId: string) {
   const [order] = await db
     .insert(orders)
     .values({
-      userId,
+      userId: userCart.userId,
       status: "processing",
       shippingAddressId: addressId,
       stripePaymentIntentId: paymentIntentId,
