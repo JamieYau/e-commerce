@@ -20,7 +20,7 @@ export default function Page() {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    if (cart) {
+    if (cart && cart.cartItems.length !== 0) {
       fetch("/api/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -29,8 +29,13 @@ export default function Page() {
         .then((res) => res.json())
         .then(
           (data) => {
-            setClientSecret(data.clientSecret);
-            setAmount(data.amount);
+            if (!data.message) {
+              setClientSecret(data.clientSecret);
+              setAmount(data.amount);
+            }
+            else {
+              console.log(data.message)
+            }
           }, // Assuming your API returns the amount
         );
     }
@@ -72,12 +77,9 @@ export default function Page() {
                 />
                 {currentStage === 3 && (
                   <OrderReview
-                    searchParams={{
-                      amount: amount.toString(),
-                      addressId: addressId || "",
-                      payment_intent: paymentIntent,
-                      payment_intent_client_secret: clientSecret,
-                    }}
+                    addressId={addressId || ""}
+                    payment_intent={paymentIntent}
+                    payment_intent_client_secret={clientSecret}
                   />
                 )}
               </Elements>

@@ -34,7 +34,7 @@ export default function Payment({
     event.preventDefault();
     setIsSubmitting(true);
 
-    if (!stripe || !elements) {
+    if (!stripe || !elements || !addressId) {
       console.error("Stripe has not loaded");
       setIsSubmitting(false);
       return;
@@ -53,7 +53,7 @@ export default function Payment({
       clientSecret,
       redirect: "if_required",
       confirmParams: {
-        return_url: `${window.location.origin}/checkout/order-review?amount=${amount}&addressId=${addressId}`,
+        return_url: `${window.location.origin}/checkout`,
       },
     });
 
