@@ -4,14 +4,10 @@ import OrderReview from "@/components/OrderReview";
 import Payment from "@/components/Payment";
 import ProgressBar from "@/components/ProgressBar";
 import ReviewCart from "@/components/ReviewCart";
+import { useStripePromise } from "@/contexts/StripeProvider";
 import useCart from "@/contexts/useCart";
 import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
-
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "",
-);
 
 export default function Page() {
   const [currentStage, setCurrentStage] = useState(0);
@@ -20,6 +16,7 @@ export default function Page() {
   const [amount, setAmount] = useState(0);
   const [addressId, setAddressId] = useState<string | null>(null);
   const [paymentIntent, setPaymentIntent] = useState(""); // State to store paymentIntent
+  const stripePromise = useStripePromise();
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
