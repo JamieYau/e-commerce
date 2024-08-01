@@ -43,7 +43,9 @@ export default function ReviewCart({ className, next }: ReviewCartProps) {
   return (
     <div className={cn("flex flex-col gap-4", className)}>
       <h2 className="text-xl font-semibold">Review Your Cart</h2>
-      {cart && (
+      {!cart || cartItems.length === 0 ? (
+        <div>Empty Cart</div>
+      ) : (
         <>
           <div className="flex flex-col gap-4 rounded-sm sm:gap-0 sm:border">
             {cart.cartItems.map((item) => (
