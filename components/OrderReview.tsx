@@ -1,33 +1,26 @@
 "use client";
-import { useStripePromise } from "@/contexts/StripeProvider";
+import { useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 
 interface OrderReviewParams {
-  addressId: string;
   payment_intent: string;
   payment_intent_client_secret: string;
 }
 
 export default function OrderReview({
-  addressId,
   payment_intent,
   payment_intent_client_secret,
 }: OrderReviewParams) {
   const [message, setMessage] = useState("");
   const [amount, setAmount] = useState(0);
-  const stripePromise = useStripePromise(); // Use the shared stripePromise
+  const stripe = useStripe();
 
   useEffect(() => {
-    if (!stripePromise) return;
+    if (!stripe) return;
 
-    stripePromise.then(async (stripe) => {
-      if (!stripe) return;
-
-      try {
-        const { error, paymentIntent } = await stripe.retrievePaymentIntent(
-          payment_intent_client_secret,
-        );
-
+    stripe
+      .retrievePaymentIntent(payment_intent_client_secret)
+      .then(({ paymentIntent, error }) => {
         if (error && error.message) {
           setMessage(error.message);
         } else if (paymentIntent) {
@@ -36,7 +29,7 @@ export default function OrderReview({
             case "succeeded":
               setMessage("Success! Payment received.");
               break;
-              
+
             case "processing":
               setMessage(
                 "Payment processing. We'll update you when payment is received.",
@@ -52,12 +45,8 @@ export default function OrderReview({
               break;
           }
         }
-      } catch (error) {
-        console.error("Failed to retrieve payment intent:", error);
-        setMessage("Failed to retrieve payment intent.");
-      }
-    });
-  }, [stripePromise, payment_intent_client_secret, payment_intent, addressId]);
+      });
+  }, [payment_intent_client_secret, payment_intent, stripe]);
 
   return (
     <main className="m-10 mx-auto max-w-6xl rounded-md border p-10 text-center">

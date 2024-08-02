@@ -14,7 +14,6 @@ export default function Page() {
   const { cart } = useCart();
   const [clientSecret, setClientSecret] = useState("");
   const [amount, setAmount] = useState(0);
-  const [addressId, setAddressId] = useState<string | null>(null);
   const [paymentIntentId, setPaymentIntentId] = useState(""); // State to store paymentIntent
   const stripePromise = useStripePromise();
 
@@ -25,7 +24,7 @@ export default function Page() {
   }, [currentStage, cart]);
 
   const createPaymentIntent = async () => {
-    const response = await fetch("/api/payment", {
+    const response = await fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cartId: cart!.id }),
@@ -37,22 +36,6 @@ export default function Page() {
       setPaymentIntentId(data.paymentIntentId);
     } else {
       console.error(data.message);
-    }
-  };
-
-  const updatePaymentIntentWithAddress = async (addressId: string) => {
-    try {
-      const response = await fetch("/api/update-payment-intent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentIntentId, addressId }),
-      });
-      const data = await response.json();
-      if (data.error) {
-        console.error("Error updating PaymentIntent:", data.error);
-      }
-    } catch (error) {
-      console.error("Error updating PaymentIntent:", error);
     }
   };
 
@@ -72,27 +55,19 @@ export default function Page() {
             <Elements stripe={stripePromise} options={options}>
               <DeliveryAddress
                 className={currentStage === 1 ? "block" : "hidden"}
-                next={async (addressId) => {
-                  setAddressId(addressId);
-                  await updatePaymentIntentWithAddress(addressId);
-                  setCurrentStage(2);
-                }}
+                paymentIntentId={paymentIntentId}
+                next={() => setCurrentStage(2)}
                 prev={() => setCurrentStage(0)}
               />
               <Payment
                 className={currentStage === 2 ? "block" : "hidden"}
-                next={(intent: string) => {
-                  setPaymentIntentId(intent);
-                  setCurrentStage(3);
-                }}
+                next={() => setCurrentStage(3)}
                 prev={() => setCurrentStage(1)}
                 clientSecret={clientSecret}
                 amount={amount}
-                addressId={addressId}
               />
               {currentStage === 3 && (
                 <OrderReview
-                  addressId={addressId || ""}
                   payment_intent={paymentIntentId}
                   payment_intent_client_secret={clientSecret}
                 />

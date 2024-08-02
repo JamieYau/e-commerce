@@ -9,18 +9,36 @@ import { saveAddress } from "@/actions/addressActions";
 
 interface DeliveryAddressProps {
   className?: string;
+  paymentIntentId: string;
   next: (addressId: string) => void;
   prev: () => void;
 }
 
 export default function DeliveryAddress({
   className,
+  paymentIntentId,
   next,
   prev,
 }: DeliveryAddressProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+
+  const updatePaymentIntentWithAddress = async (addressId: string) => {
+    try {
+      const response = await fetch("/api/update-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentIntentId, addressId }),
+      });
+      const data = await response.json();
+      if (data.error) {
+        console.error("Error updating PaymentIntent:", data.error);
+      }
+    } catch (error) {
+      console.error("Error updating PaymentIntent:", error);
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,6 +58,7 @@ export default function DeliveryAddress({
         try {
           // Save address using the server action
           const address = await saveAddress(value.address);
+          await updatePaymentIntentWithAddress(address.id);
           next(address.id); // Move to the next stage
         } catch (error) {
           console.error("Error saving address:", error);

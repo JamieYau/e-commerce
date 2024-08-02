@@ -6,15 +6,13 @@ import {
 } from "@stripe/react-stripe-js";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { createOrder } from "@/actions/orderActions";
 
 interface PaymentProps {
   className?: string;
-  next: (intent: string) => void;
+  next: () => void;
   prev: () => void;
   clientSecret: string;
   amount: number;
-  addressId: string | null; // Ensure addressId can be null initially
 }
 
 export default function Payment({
@@ -23,7 +21,6 @@ export default function Payment({
   className,
   clientSecret,
   amount,
-  addressId,
 }: PaymentProps) {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,7 +31,7 @@ export default function Payment({
     event.preventDefault();
     setIsSubmitting(true);
 
-    if (!stripe || !elements || !addressId) {
+    if (!stripe || !elements) {
       console.error("Stripe has not loaded");
       setIsSubmitting(false);
       return;
@@ -48,7 +45,7 @@ export default function Payment({
       return;
     }
 
-    const { error, paymentIntent } = await stripe.confirmPayment({
+    const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
       redirect: "if_required",
@@ -60,7 +57,7 @@ export default function Payment({
     if (error) {
       setErrorMessage(error.message);
     } else {
-      next(paymentIntent.id);
+      next();
     }
 
     setIsSubmitting(false);
