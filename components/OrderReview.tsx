@@ -18,6 +18,8 @@ export default function OrderReview({
   useEffect(() => {
     if (!stripe) return;
 
+    // Add stripe promise back and add page back so i can retrieve payment intent on another page.
+
     stripe
       .retrievePaymentIntent(payment_intent_client_secret)
       .then(({ paymentIntent, error }) => {

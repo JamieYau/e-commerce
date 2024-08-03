@@ -66,3 +66,18 @@ export async function createOrder(paymentIntentId: string, addressId: string) {
 
   return order;
 }
+
+export async function getOrderId(paymentIntentId: string) {
+  const order = await db.query.orders.findFirst({
+    where: eq(orders.stripePaymentIntentId, paymentIntentId),
+    columns: {
+      id: true,
+    },
+  });
+
+  if (!order) {
+    throw new Error("Order not found");
+  }
+
+  return order.id;
+}

@@ -66,12 +66,12 @@ export default function Page() {
                 clientSecret={clientSecret}
                 amount={amount}
               />
-              {currentStage === 3 && (
+              {/* {currentStage === 3 && (
                 <OrderReview
                   payment_intent={paymentIntentId}
                   payment_intent_client_secret={clientSecret}
                 />
-              )}
+              )} */}
             </Elements>
           ))}
       </section>
