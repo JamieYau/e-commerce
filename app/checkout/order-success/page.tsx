@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getOrderId } from "@/actions/orderActions";
 import { buttonVariants } from "@/components/ui/button";
+import ProgressBar from "@/components/ProgressBar";
 
 interface OrderSuccessParams {
   searchParams: {
@@ -63,20 +64,23 @@ export default function OrderSuccessPage({
   }, [stripePromise, payment_intent_client_secret]);
 
   return (
-    <div>
-      <h1>Order Success</h1>
-      <div>{message}</div>
-      <div>Amount: £{(amount / 100).toFixed(2)}</div>
-      {orderId ? (
-        <Link
-          className={buttonVariants({ variant: "default" })}
-          href={`/order/${orderId}`}
-        >
-          View Order
-        </Link>
-      ) : (
-        <div>Loading order details...</div>
-      )}
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-2 sm:px-8">
+      <ProgressBar currentStage={3} />
+      <section>
+        <h1>Order Success</h1>
+        <div>{message}</div>
+        <div>Amount: £{(amount / 100).toFixed(2)}</div>
+        {orderId ? (
+          <Link
+            className={buttonVariants({ variant: "default" })}
+            href={`/order/${orderId}`}
+          >
+            View Order
+          </Link>
+        ) : (
+          <div>Loading order details...</div>
+        )}
+      </section>
     </div>
   );
 }

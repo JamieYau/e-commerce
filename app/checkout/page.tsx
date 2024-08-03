@@ -1,6 +1,5 @@
 "use client";
 import DeliveryAddress from "@/components/DeliveryAddress";
-import OrderReview from "@/components/OrderReview";
 import Payment from "@/components/Payment";
 import ProgressBar from "@/components/ProgressBar";
 import ReviewCart from "@/components/ReviewCart";
@@ -61,17 +60,10 @@ export default function Page() {
               />
               <Payment
                 className={currentStage === 2 ? "block" : "hidden"}
-                next={() => setCurrentStage(3)}
                 prev={() => setCurrentStage(1)}
                 clientSecret={clientSecret}
                 amount={amount}
               />
-              {/* {currentStage === 3 && (
-                <OrderReview
-                  payment_intent={paymentIntentId}
-                  payment_intent_client_secret={clientSecret}
-                />
-              )} */}
             </Elements>
           ))}
       </section>

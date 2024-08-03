@@ -9,7 +9,6 @@ import { useState } from "react";
 
 interface PaymentProps {
   className?: string;
-  next: () => void;
   prev: () => void;
   clientSecret: string;
   amount: number;
@@ -17,7 +16,6 @@ interface PaymentProps {
 
 export default function Payment({
   prev,
-  next,
   className,
   clientSecret,
   amount,
@@ -55,8 +53,6 @@ export default function Payment({
 
     if (error) {
       setErrorMessage(error.message);
-    } else {
-      next();
     }
 
     setIsSubmitting(false);
