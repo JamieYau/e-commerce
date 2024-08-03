@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getOrderId } from "@/actions/orderActions";
 import { buttonVariants } from "@/components/ui/button";
 import ProgressBar from "@/components/ProgressBar";
+import { Check } from "lucide-react";
 
 interface OrderSuccessParams {
   searchParams: {
@@ -37,7 +38,7 @@ export default function OrderSuccessPage({
         setAmount(paymentIntent.amount);
         switch (paymentIntent.status) {
           case "succeeded":
-            setMessage("Success! Payment received.");
+            setMessage("Success! Order Placed.");
             try {
               const orderId = await getOrderId(paymentIntent.id);
               setOrderId(orderId);
@@ -64,22 +65,26 @@ export default function OrderSuccessPage({
   }, [stripePromise, payment_intent_client_secret]);
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-2 sm:px-8">
+    <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 p-2 sm:px-8">
       <ProgressBar currentStage={3} />
-      <section>
-        <h1>Order Success</h1>
-        <div>{message}</div>
-        <div>Amount: £{(amount / 100).toFixed(2)}</div>
-        {orderId ? (
-          <Link
-            className={buttonVariants({ variant: "default" })}
-            href={`/order/${orderId}`}
-          >
-            View Order
-          </Link>
-        ) : (
-          <div>Loading order details...</div>
-        )}
+      <section className="m-auto">
+        <div className="relative flex flex-col items-center gap-4 rounded-md border p-4">
+          <div className="absolute -top-6 bg-green-400 rounded-full">
+            <Check className="h-12 w-12 stroke-white" />
+          </div>
+          <h1 className="text-2xl font-bold mt-4">{message}</h1>
+          <p className="font-semibold">£{(amount / 100).toFixed(2)}</p>
+          {orderId ? (
+            <Link
+              className={buttonVariants({ variant: "default" })}
+              href={`/order/${orderId}`}
+            >
+              View Order
+            </Link>
+          ) : (
+            <div>Loading order details...</div>
+          )}
+        </div>
       </section>
     </div>
   );
