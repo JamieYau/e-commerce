@@ -1,10 +1,28 @@
 import "dotenv/config";
 import db from "./db";
-import { categories, products } from "./schema";
+import {
+  cartItems,
+  carts,
+  categories,
+  orderItems,
+  orders,
+  products,
+  reviews,
+} from "./schema";
 import { v4 as uuidv4 } from "uuid";
+import { stripe } from "@/lib/stripe";
 
 async function seed() {
   console.log("Seeding database...");
+
+  // Clear existing data
+  await db.delete(cartItems).execute();
+  await db.delete(carts).execute();
+  await db.delete(products).execute();
+  await db.delete(categories).execute();
+  await db.delete(reviews).execute();
+  await db.delete(orderItems).execute();
+  await db.delete(orders).execute();
 
   // Seed Categories
   const categoryData = [
@@ -66,7 +84,7 @@ async function seed() {
       stock: 75,
       categoryId: categoryData[0].id,
       brand: "Samsung",
-      imageUrl: "/",
+      imageUrl: "",
       specs: {
         display: "Super AMOLED",
         processor: "Exynos W920 Dual-Core 1.18GHz",
@@ -175,10 +193,30 @@ async function seed() {
         chargingCase: "MagSafe Charging Case",
         batteryLife: "Up to 6 hours of listening time with ANC on",
       },
-      stripeProductId: null,
-      stripePriceId: null,
+      stripeProductId: "",
+      stripePriceId: "",
     },
   ];
+
+  // stripe data
+  for (const product of productData) {
+    // Create a product on Stripe
+    const stripeProduct = await stripe.products.create({
+      name: product.name,
+      description: product.description,
+    });
+
+    // Create a price for the product on Stripe
+    const stripePrice = await stripe.prices.create({
+      unit_amount: parseFloat(product.price) * 100,
+      currency: "gbp",
+      product: stripeProduct.id,
+    });
+
+    // Update product data with Stripe IDs
+    product.stripeProductId = stripeProduct.id;
+    product.stripePriceId = stripePrice.id;
+  }
 
   await db.insert(products).values(productData);
   console.log("Products seeded successfully");

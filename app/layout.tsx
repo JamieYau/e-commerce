@@ -4,8 +4,7 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import NavBar from "@/components/NavBar";
 import { Toaster } from "@/components/ui/toaster";
-import { SessionProvider } from "next-auth/react";
-import CartProvider from "@/contexts/CartProvider";
+import Providers from "@/contexts/Providers";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -64,15 +63,13 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <SessionProvider>
-          <CartProvider>
-            <NavBar />
-            <main className="flex min-h-full w-full flex-1 flex-col items-center justify-between p-4">
-              {children}
-            </main>
-            <Toaster />
-          </CartProvider>
-        </SessionProvider>
+        <Providers>
+          <NavBar />
+          <main className="flex min-h-full w-full flex-1 flex-col items-center justify-between p-4">
+            {children}
+          </main>
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );
