@@ -1,4 +1,4 @@
-import { Lock, LogOut, Settings } from "lucide-react";
+import { Lock, LogOut, Settings, ShoppingCart } from "lucide-react";
 import { User } from "next-auth";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -36,6 +36,12 @@ export default function UserButton({ user }: UserButtonProps) {
         <DropdownMenuLabel>{user.name || "User"}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuItem asChild>
+            <Link href="/orders">
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              <span>Orders</span>
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href="/settings">
               <Settings className="mr-2 h-4 w-4" />
