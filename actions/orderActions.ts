@@ -107,3 +107,33 @@ export async function getOrders(userId: string) {
 
   return ordersWithTotalAmount;
 }
+
+export async function getOrder(orderId: string) {
+  const order = await db.query.orders.findFirst({
+    where: eq(orders.id, orderId),
+    with: {
+      orderItems: {
+        with: { product: true },
+      },
+      shippingAddress: {
+        columns: {
+          line1: true,
+          line2: true,
+          city: true,
+          country: true,
+          postal_code: true,
+        },
+      },
+    },
+  });
+
+  if (!order) {
+    throw new Error(`No order with id: ${orderId}`);
+  }
+
+  const totalAmount = order.orderItems.reduce((sum, item) => {
+    return sum + parseFloat(item.price) * item.quantity;
+  }, 0);
+
+  return { ...order, totalAmount };
+}

@@ -30,7 +30,7 @@ export default async function OrdersPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Order no.</TableHead>
+              <TableHead className="w-[100px]">Order ID</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Amount</TableHead>
               <TableHead>Items</TableHead>
