@@ -81,3 +81,29 @@ export async function getOrderId(paymentIntentId: string) {
 
   return order.id;
 }
+
+export async function getOrders(userId: string) {
+  const userOrders = await db.query.orders.findMany({
+    where: eq(orders.userId, userId),
+    with: {
+      orderItems: true,
+    },
+  });
+
+  if (!userOrders) {
+    throw new Error("Orders not found");
+  }
+
+  // Calculate totalAmount for each order
+  const ordersWithTotalAmount = userOrders.map((order) => {
+    const totalAmount = order.orderItems.reduce((sum, item) => {
+      return sum + parseFloat(item.price) * item.quantity;
+    }, 0);
+    return {
+      ...order,
+      totalAmount,
+    };
+  });
+
+  return ordersWithTotalAmount;
+}
