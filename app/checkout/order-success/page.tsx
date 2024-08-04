@@ -77,7 +77,7 @@ export default function OrderSuccessPage({
           {orderId ? (
             <Link
               className={buttonVariants({ variant: "default" })}
-              href={`/order/${orderId}`}
+              href={`/orders/${orderId}`}
             >
               View Order
             </Link>
