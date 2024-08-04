@@ -7,6 +7,15 @@ import { useStripePromise } from "@/contexts/StripeProvider";
 import useCart from "@/contexts/useCart";
 import { Elements } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Link from "next/link";
 
 export default function Page() {
   const [currentStage, setCurrentStage] = useState(0);
@@ -44,6 +53,19 @@ export default function Page() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-2 sm:px-8">
+      <Breadcrumb>
+        <BreadcrumbList className="gap-1">
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Checkout</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <ProgressBar currentStage={currentStage} />
       <section>
         {currentStage === 0 && <ReviewCart next={() => setCurrentStage(1)} />}

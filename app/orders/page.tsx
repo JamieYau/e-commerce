@@ -12,6 +12,14 @@ import { auth } from "@/auth";
 import { format } from "date-fns";
 import { buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export default async function OrdersPage() {
   const session = await auth();
@@ -24,9 +32,22 @@ export default async function OrdersPage() {
   }
   const orders = await getOrders(user.id);
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-2 sm:px-8">
+    <div className="mx-auto flex w-full max-w-7xl flex-col p-2 sm:px-8">
+      <Breadcrumb className="mb-4">
+        <BreadcrumbList className="gap-1">
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Orders</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <section>
-        <h1 className="text-2xl font-bold mb-4">Order History</h1>
+        <h1 className="mb-4 text-2xl font-bold">Order History</h1>
         <Table>
           <TableHeader>
             <TableRow>
