@@ -1,11 +1,9 @@
 import { getProduct } from "@/actions/productActions";
 import Badge from "@/components/Badge";
 import ProductTabs from "@/components/ProductTabs";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { badges } from "@/lib/badgeData";
-import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Recommended from "@/components/Recommended";
