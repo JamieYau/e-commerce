@@ -21,11 +21,13 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import { Category } from "@/types/db";
+import { Slider } from "./ui/slider";
 
 const FormSchema = z.object({
   categories: z.array(z.string()).refine((value) => value.length > 0, {
     message: "You have to select at least one category.",
   }),
+  priceRange: z.array(z.number()),
 });
 
 interface ProductFiltersFormProps {
@@ -41,6 +43,7 @@ export default function ProductFiltersForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       categories: [],
+      priceRange: [0, 2000], // Default price range
     },
   });
 
@@ -74,12 +77,14 @@ export default function ProductFiltersForm({
                       >
                         <FormControl>
                           <Checkbox
-                            checked={field.value.includes(category.id)}
+                            checked={field.value.includes(
+                              category.id.toString(),
+                            )}
                             onCheckedChange={(checked) => {
                               const newValue = checked
-                                ? [...field.value, category.id]
+                                ? [...field.value, category.id.toString()]
                                 : field.value.filter(
-                                    (id) => id !== category.id,
+                                    (id) => id !== category.id.toString(),
                                   );
                               field.onChange(newValue);
                             }}
@@ -96,8 +101,37 @@ export default function ProductFiltersForm({
               />
             </AccordionContent>
           </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Price Range</AccordionTrigger>
+            <AccordionContent>
+              <FormField
+                control={form.control}
+                name="priceRange"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Price Range</FormLabel>
+                    <FormControl>
+                      <Slider
+                        min={0}
+                        max={2000}
+                        step={1}
+                        defaultValue={field.value}
+                        onValueChange={field.onChange}
+                        minStepsBetweenThumbs={50}
+                      />
+                    </FormControl>
+                    <div className="mt-2 flex justify-between text-sm">
+                      <span>£{field.value[0]}</span>
+                      <span>£{field.value[1]}</span>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </AccordionContent>
+          </AccordionItem>
         </Accordion>
-        <Button type="submit">Apply Filters</Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
