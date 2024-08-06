@@ -8,8 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import CategoryDropdownLoading from "@/components/CategoryDropdownLoading";
-import CategoryDropdown from "@/components/CategoryDropdown";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,6 +18,16 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import ProductFilters from "@/components/ProductFilters";
+
+const SORT_OPTIONS = [
+  { name: "Price (Low to High)", value: "price-asc" },
+  { name: "Price (High to Low)", value: "price-desc" },
+  { name: "Newest", value: "newest" },
+  { name: "Popularity", value: "popularity" },
+  { name: "Rating", value: "rating" },
+] as const;
 
 export default function page() {
   return (
@@ -36,22 +45,29 @@ export default function page() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="flex flex-col lg:grid lg:grid-cols-10">
+      <div className="flex flex-col lg:grid lg:grid-cols-10 lg:gap-4">
         <div className="flex h-full w-full flex-col gap-2 pt-4 lg:col-span-2">
           <h2 className="font-semibold">Filters</h2>
+          <Button
+            variant={"link"}
+            className="mr-auto p-0 text-muted-foreground"
+          >
+            Clear Filters
+          </Button>
           <div className="flex gap-4 lg:flex-col">
-            <Suspense fallback={<CategoryDropdownLoading />}>
-              <CategoryDropdown />
-            </Suspense>
             <Select>
-              <SelectTrigger className="w-24">
+              <SelectTrigger className="max-w-44 lg:flex">
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="latest">Latest</SelectItem>
-                <SelectItem value="oldest">Oldest</SelectItem>
+                {SORT_OPTIONS.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
+            <ProductFilters />
           </div>
         </div>
         <div className="mx-auto w-full max-w-7xl pt-4 lg:col-span-8">
