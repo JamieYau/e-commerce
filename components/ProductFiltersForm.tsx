@@ -79,10 +79,22 @@ export default function ProductFiltersForm({
     });
   }
 
+  function clearFilters() {
+    form.reset();
+    router.push("/products");
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <Accordion type="multiple">
+          <Button
+            variant={"default"}
+            onClick={() => clearFilters()}
+            type="reset"
+          >
+            Clear Filters
+          </Button>
           <AccordionItem value="item-1">
             <AccordionTrigger>Category</AccordionTrigger>
             <AccordionContent>
@@ -136,7 +148,7 @@ export default function ProductFiltersForm({
                         min={0}
                         max={2000}
                         step={1}
-                        defaultValue={field.value}
+                        value={field.value}
                         onValueChange={field.onChange}
                         minStepsBetweenThumbs={50}
                       />
