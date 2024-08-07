@@ -25,9 +25,7 @@ import { Slider } from "./ui/slider";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const FormSchema = z.object({
-  categories: z.array(z.string()).refine((value) => value.length > 0, {
-    message: "You have to select at least one category.",
-  }),
+  categories: z.array(z.string()),
   priceRange: z.tuple([z.number(), z.number()]),
 });
 
