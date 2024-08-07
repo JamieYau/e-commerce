@@ -22,12 +22,13 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { Category } from "@/types/db";
 import { Slider } from "./ui/slider";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const FormSchema = z.object({
   categories: z.array(z.string()).refine((value) => value.length > 0, {
     message: "You have to select at least one category.",
   }),
-  priceRange: z.array(z.number()),
+  priceRange: z.tuple([z.number(), z.number()]),
 });
 
 interface ProductFiltersFormProps {
@@ -38,6 +39,8 @@ export default function ProductFiltersForm({
   categories,
 }: ProductFiltersFormProps) {
   const { toast } = useToast();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -48,6 +51,23 @@ export default function ProductFiltersForm({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    // Construct search params
+    const params = new URLSearchParams(searchParams);
+
+    // Set category params as comma-separated values
+    if (data.categories.length > 0) {
+      params.set("category", data.categories.join(","));
+    } else {
+      params.delete("category");
+    }
+
+    // Set price range params
+    params.set("minPrice", data.priceRange[0].toString());
+    params.set("maxPrice", data.priceRange[1].toString());
+
+    // Update the URL
+    router.push(`?${params.toString()}`);
+
     toast({
       title: "You submitted the following values:",
       description: (

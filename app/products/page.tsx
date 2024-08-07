@@ -29,7 +29,15 @@ const SORT_OPTIONS = [
   { name: "Rating", value: "rating" },
 ] as const;
 
-export default function page() {
+export interface ProductsFiltersProps {
+  searchParams?: {
+    category?: string;
+    minPrice?: string;
+    maxPrice?: string;
+  };
+}
+
+export default function ProductsPage({ searchParams }: ProductsFiltersProps) {
   return (
     <div className="m-auto flex w-full max-w-7xl flex-col p-2 sm:px-8">
       <Breadcrumb>
@@ -72,7 +80,7 @@ export default function page() {
         </div>
         <div className="mx-auto w-full max-w-7xl pt-4 lg:col-span-8">
           <Suspense fallback={<Loading />}>
-            <Products />
+            <Products searchParams={searchParams}/>
           </Suspense>
         </div>
       </div>
