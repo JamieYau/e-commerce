@@ -41,19 +41,22 @@ export default function ProductFiltersForm({
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      categories: [],
-      priceRange: [0, 2000], // Default price range
+      categories: params.get("category")
+        ? params.get("category")!.split(",")
+        : [],
+      priceRange: [
+        params.get("minPrice") ? parseInt(params.get("minPrice")!) : 0,
+        params.get("maxPrice") ? parseInt(params.get("maxPrice")!) : 2000,
+      ], // Default price range
     },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    // Construct search params
-    const params = new URLSearchParams(searchParams);
-
     // Set category params as comma-separated values
     if (data.categories.length > 0) {
       params.set("category", data.categories.join(","));

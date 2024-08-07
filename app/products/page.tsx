@@ -39,7 +39,7 @@ export interface ProductsFiltersProps {
 
 export default function ProductsPage({ searchParams }: ProductsFiltersProps) {
   return (
-    <div className="m-auto flex w-full max-w-7xl flex-col p-2 sm:px-8">
+    <div className="flex-1 flex w-full max-w-7xl flex-col p-2 sm:px-8">
       <Breadcrumb>
         <BreadcrumbList className="gap-1">
           <BreadcrumbItem>
