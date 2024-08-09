@@ -30,27 +30,37 @@ async function seed() {
       id: uuidv4(),
       name: "Smartwatches",
       description: "Wearable smart devices",
+      imageUrl: "/images/categories/smartwatches.jpg",
     },
     {
       id: uuidv4(),
       name: "TV & Home",
       description: "Smart TVs and home entertainment systems",
+      imageUrl: "/images/categories/tv.jpg",
     },
     {
       id: uuidv4(),
       name: "Tablets",
       description: "Portable touchscreen computers",
+      imageUrl: "/images/categories/tablets.jpg",
     },
     {
       id: uuidv4(),
       name: "Phones",
       description: "Smartphones and mobile devices",
+      imageUrl: "/images/products/iphone-15-pro.png",
     },
-    { id: uuidv4(), name: "Laptops", description: "Portable computers" },
+    {
+      id: uuidv4(),
+      name: "Laptops",
+      description: "Portable computers",
+      imageUrl: "/images/categories/laptops.jpg",
+    },
     {
       id: uuidv4(),
       name: "Accessories",
       description: "Gadgets and add-ons for your devices",
+      imageUrl: "/images/categories/accessories.jpg",
     },
   ];
 

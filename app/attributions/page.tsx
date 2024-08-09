@@ -3,7 +3,11 @@ export default function AttributionsPage() {
     <div>
       <h1>AttributionsPage</h1>
       <ul>
-        <li></li>
+        <li>
+          <a href="https://www.vecteezy.com/free-photos/tv">
+            Tv Stock photos by Vecteezy
+          </a>
+        </li>
       </ul>
     </div>
   );
