@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import NavBar from "@/components/NavBar";
 import { Toaster } from "@/components/ui/toaster";
 import Providers from "@/contexts/Providers";
+import Footer from "@/components/Footer";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -68,6 +69,7 @@ export default function RootLayout({
           <main className="flex min-h-full w-full flex-1 flex-col items-center justify-between p-4">
             {children}
           </main>
+          <Footer />
           <Toaster />
         </Providers>
       </body>
