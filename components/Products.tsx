@@ -4,6 +4,7 @@ import { ProductsFiltersProps } from "@/app/products/page";
 
 export default async function Products({ searchParams }: ProductsFiltersProps) {
   const filters = {
+    sort: searchParams?.sort,
     categories: searchParams?.category ? searchParams.category.split(",") : undefined,
     minPrice: searchParams?.minPrice,
     maxPrice: searchParams?.maxPrice,

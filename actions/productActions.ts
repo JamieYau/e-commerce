@@ -2,39 +2,59 @@
 
 import db from "@/db/db";
 import { products, reviews } from "@/db/schema";
-import { and, eq, inArray, notInArray, sql } from "drizzle-orm";
-import { PgColumn } from "drizzle-orm/pg-core";
+import {
+  and,
+  asc,
+  avg,
+  desc,
+  eq,
+  gte,
+  inArray,
+  lte,
+  notInArray,
+  sql,
+} from "drizzle-orm";
 
 interface Filters {
+  sort?: string;
   categories?: string[];
   minPrice?: string;
   maxPrice?: string;
 }
 
-const numericGte = (column: PgColumn, value: string | undefined) =>
-  value ? sql`CAST(${column} AS numeric) >= ${parseFloat(value)}` : undefined;
-
-const numericLte = (column: PgColumn, value: string | undefined) =>
-  value ? sql`CAST(${column} AS numeric) <= ${parseFloat(value)}` : undefined;
+function getSort(sort: Filters["sort"]) {
+  switch (sort) {
+    case "price-asc":
+      return asc(products.price);
+    case "price-desc":
+      return desc(products.price);
+    case "newest":
+      return desc(products.createdAt);
+    // case "rating":
+    //   // Join with the reviews table to sort by the average rating
+    //   return desc(avg(reviews.rating));
+    default:
+      return desc(products.createdAt);
+  }
+}
 
 export const getProducts = async (filters: Filters = {}) => {
-  const { categories, minPrice, maxPrice } = filters;
-  const whereClauses = [];
-
-  if (categories && categories.length > 0) {
-    whereClauses.push(inArray(products.categoryId, categories));
-  }
-
-  const minPriceClause = numericGte(products.price, minPrice);
-  if (minPriceClause) whereClauses.push(minPriceClause);
-
-  const maxPriceClause = numericLte(products.price, maxPrice);
-  if (maxPriceClause) whereClauses.push(maxPriceClause);
-
+  const { sort, categories, minPrice, maxPrice } = filters;
   const result = await db
     .select()
     .from(products)
-    .where(and(...whereClauses));
+    // .leftJoin(reviews, eq(products.id, reviews.productId))
+    // .groupBy(products.id)
+    .where(
+      and(
+        categories && categories.length > 0
+          ? inArray(products.categoryId, categories)
+          : undefined,
+        minPrice ? gte(products.price, minPrice) : undefined,
+        maxPrice ? lte(products.price, maxPrice) : undefined,
+      ),
+    )
+    .orderBy(getSort(sort));
 
   return result;
 };

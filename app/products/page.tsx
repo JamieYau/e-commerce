@@ -2,14 +2,6 @@ import Products from "@/components/Products";
 import { Suspense } from "react";
 import Loading from "@/components/ProductsLoading";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -18,19 +10,12 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
 import ProductFilters from "@/components/ProductFilters";
-
-const SORT_OPTIONS = [
-  { name: "Price (Low to High)", value: "price-asc" },
-  { name: "Price (High to Low)", value: "price-desc" },
-  { name: "Newest", value: "newest" },
-  { name: "Popularity", value: "popularity" },
-  { name: "Rating", value: "rating" },
-] as const;
+import SortSelect from "@/components/SortSelect";
 
 export interface ProductsFiltersProps {
   searchParams?: {
+    sort?: string;
     category?: string;
     minPrice?: string;
     maxPrice?: string;
@@ -57,18 +42,7 @@ export default function ProductsPage({ searchParams }: ProductsFiltersProps) {
         <div className="flex h-full w-full flex-col gap-2 pt-4 lg:col-span-2">
           <h2 className="font-semibold">Filters</h2>
           <div className="flex gap-4 lg:flex-col">
-            <Select>
-              <SelectTrigger className="max-w-44 lg:flex">
-                <SelectValue placeholder="Sort By" />
-              </SelectTrigger>
-              <SelectContent>
-                {SORT_OPTIONS.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <SortSelect />
             <ProductFilters />
           </div>
         </div>
