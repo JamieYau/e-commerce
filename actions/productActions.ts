@@ -2,10 +2,60 @@
 
 import db from "@/db/db";
 import { products, reviews } from "@/db/schema";
-import { eq, notInArray, sql } from "drizzle-orm";
+import {
+  and,
+  asc,
+  avg,
+  desc,
+  eq,
+  gte,
+  inArray,
+  lte,
+  notInArray,
+  sql,
+} from "drizzle-orm";
 
-export const getProducts = async () => {
-  const result = await db.select().from(products);
+interface Filters {
+  sort?: string;
+  categories?: string[];
+  minPrice?: string;
+  maxPrice?: string;
+}
+
+function getSort(sort: Filters["sort"]) {
+  switch (sort) {
+    case "price-asc":
+      return asc(products.price);
+    case "price-desc":
+      return desc(products.price);
+    case "newest":
+      return desc(products.createdAt);
+    // case "rating":
+    //   // Join with the reviews table to sort by the average rating
+    //   return desc(avg(reviews.rating));
+    default:
+      return desc(products.createdAt);
+  }
+}
+
+export const getProducts = async (filters: Filters = {}) => {
+  const { sort, categories, minPrice, maxPrice } = filters;
+  const result = await db
+    .select()
+    .from(products)
+    // .leftJoin(reviews, eq(products.id, reviews.productId))
+    // .groupBy(products.id)
+    .where(
+      and(
+        categories && categories.length > 0
+          ? inArray(products.categoryId, categories)
+          : undefined,
+        minPrice ? gte(products.price, minPrice) : undefined,
+        maxPrice ? lte(products.price, maxPrice) : undefined,
+      ),
+    )
+    .orderBy(getSort(sort));
+
   return result;
 };
 
