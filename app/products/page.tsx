@@ -12,7 +12,6 @@ import {
 import Link from "next/link";
 import ProductFilters from "@/components/ProductFilters";
 import SortSelect from "@/components/SortSelect";
-import FiltersButton from "@/components/FiltersButton";
 
 export interface ProductsFiltersProps {
   searchParams?: {
@@ -41,14 +40,9 @@ export default function ProductsPage({ searchParams }: ProductsFiltersProps) {
       </Breadcrumb>
       <div className="flex flex-col lg:grid lg:grid-cols-10 lg:gap-4">
         <div className="flex h-full w-full flex-col gap-2 pt-4 lg:col-span-2">
-          <h2 className="font-semibold hidden lg:block">Filters</h2>
+          <h2 className="hidden font-semibold lg:block">Filters</h2>
           <div className="flex justify-end gap-4 lg:flex-col-reverse">
-            <div className="lg:hidden">
-              <FiltersButton />
-            </div>
-            <div className="hidden lg:block lg:mt-4">
-              <ProductFilters />
-            </div>
+            <ProductFilters />
             <SortSelect />
           </div>
         </div>

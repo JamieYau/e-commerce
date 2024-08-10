@@ -34,7 +34,14 @@ export default function SortSelect() {
       <SelectTrigger className="max-w-44 lg:flex lg:max-w-full">
         <SelectValue placeholder="Sort By" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent
+        ref={(ref) => {
+          if (!ref) return;
+          ref.ontouchstart = (e) => {
+            e.preventDefault();
+          };
+        }}
+      >
         {SORT_OPTIONS.map((option) => (
           <SelectItem key={option.value} value={option.value}>
             {option.name}
