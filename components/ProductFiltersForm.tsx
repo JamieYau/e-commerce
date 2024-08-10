@@ -86,12 +86,13 @@ export default function ProductFiltersForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-8">
         <Accordion type="multiple">
           <Button
             variant={"default"}
             onClick={() => clearFilters()}
             type="reset"
+            className="w-full"
           >
             Clear Filters
           </Button>
