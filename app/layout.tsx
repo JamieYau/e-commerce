@@ -66,7 +66,7 @@ export default function RootLayout({
       >
         <Providers>
           <NavBar />
-          <main className="flex min-h-full w-full flex-1 flex-col items-center justify-between p-4">
+          <main className="flex min-h-full w-full flex-1 flex-col items-center justify-between">
             {children}
           </main>
           <Footer />

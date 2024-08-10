@@ -4,20 +4,18 @@ import { buttonVariants } from "./ui/button";
 
 export default function Hero() {
   return (
-    <section className="">
-      <div className="relative aspect-[2/1] min-h-[450px] w-full">
+    <section>
+      <div className="relative -z-20 m-auto sm:mt-8 flex aspect-[5/2] min-h-[450px] w-full items-center bg-zinc-100">
         <Image
-          src={"/images/hero-2.jpg"}
+          src={"/images/hero-1.png"}
           alt="hero"
           fill
           className="-z-10 object-cover"
         />
-        <div className="pl-4 pt-4">
-          <h1 className="text-4xl font-bold">Welcome to TechWave</h1>
-          <p className="mb-6 text-lg font-semibold">
-            Explore the best fictional products for your imagination!
-          </p>
-          <p className="mb-6 text-sm font-semibold text-muted-foreground">
+        <div className="ml-8 mr-auto sm:ml-28">
+          <h1 className="max-w-72 text-5xl font-bold">Shop at TechWave</h1>
+          <p className="my-4 text-lg font-medium">Explore best tech products</p>
+          <p className="mb-10 max-w-52 text-sm font-semibold text-muted-foreground">
             Please note: This is a demo site and no actual products are for
             sale.
           </p>
