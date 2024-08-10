@@ -46,7 +46,7 @@ export default function ProductsPage({ searchParams }: ProductsFiltersProps) {
             <div className="lg:hidden">
               <FiltersButton />
             </div>
-            <div className="hidden lg:block">
+            <div className="hidden lg:block lg:mt-4">
               <ProductFilters />
             </div>
             <SortSelect />

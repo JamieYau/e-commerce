@@ -31,7 +31,7 @@ export default function SortSelect() {
 
   return (
     <Select onValueChange={handleSortChange} value={params.get("sort") || ""}>
-      <SelectTrigger className="max-w-44 lg:flex">
+      <SelectTrigger className="max-w-44 lg:flex lg:max-w-full">
         <SelectValue placeholder="Sort By" />
       </SelectTrigger>
       <SelectContent>
