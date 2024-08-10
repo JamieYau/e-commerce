@@ -4,7 +4,7 @@ import { quickLinks, socialLinks } from "@/lib/footerData";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 py-8 text-white">
+    <footer className="bg-primary py-8 text-primary-foreground">
       <div className="container mx-auto px-4">
         {/* Top Section */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">

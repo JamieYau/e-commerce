@@ -5,7 +5,7 @@ import { buttonVariants } from "./ui/button";
 export default function Hero() {
   return (
     <section>
-      <div className="relative -z-20 m-auto sm:mt-8 flex aspect-[5/2] min-h-[450px] w-full items-center bg-zinc-100">
+      <div className="relative -z-20 m-auto flex aspect-[5/2] min-h-[450px] w-full items-center bg-zinc-100">
         <Image
           src={"/images/hero-1.png"}
           alt="hero"
