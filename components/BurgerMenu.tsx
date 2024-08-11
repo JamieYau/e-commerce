@@ -10,7 +10,6 @@ import {
 import { Menu } from "lucide-react";
 import { Button, buttonVariants } from "./ui/button";
 import Link from "next/link";
-import CartPreview from "./CartPreview";
 
 export default function BurgerMenu() {
   return (
@@ -40,9 +39,6 @@ export default function BurgerMenu() {
             >
               Shop
             </Link>
-          </SheetClose>
-          <SheetClose asChild>
-            <CartPreview />
           </SheetClose>
         </div>
       </SheetContent>

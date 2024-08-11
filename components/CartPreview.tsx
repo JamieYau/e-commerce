@@ -55,7 +55,6 @@ export default function CartPreview() {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" className="relative p-2">
-          <span className="mr-2 md:hidden">Cart</span>
           <ShoppingCart className="h-6 w-6" />
           {cartItemsCount > 0 && (
             <Badge
