@@ -55,6 +55,7 @@ export default function CartPreview() {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" className="relative p-2">
+          <span className="mr-2 md:hidden">Cart</span>
           <ShoppingCart className="h-6 w-6" />
           {cartItemsCount > 0 && (
             <Badge
@@ -66,7 +67,7 @@ export default function CartPreview() {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent className="flex flex-col overflow-y-auto w-full sm:min-w-[450px] pb-0">
+      <SheetContent className="flex w-full flex-col overflow-y-auto pb-0 sm:min-w-[450px]">
         <SheetHeader>
           <SheetTitle>Your Cart</SheetTitle>
           <SheetDescription className="hidden">
@@ -130,7 +131,7 @@ export default function CartPreview() {
             </div>
           ))}
         </div>
-        <SheetFooter className="sticky bottom-0 border-t bg-background pt-6 pb-12 gap-6">
+        <SheetFooter className="sticky bottom-0 gap-6 border-t bg-background pb-12 pt-6">
           <div className="flex justify-between">
             <div className="flex gap-1">
               <span className="text-lg font-semibold">Subtotal</span>
