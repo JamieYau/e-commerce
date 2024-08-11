@@ -78,7 +78,7 @@ async function seed() {
       stock: 100,
       categoryId: categoryData[0].id,
       brand: "Apple",
-      imageUrl: "",
+      imageUrl: "/images/products/apple-watch.jpg",
       specs: {
         display: "Always-On Retina LTPO OLED display",
         processor: "S8 SiP with 64-bit dual-core processor",
@@ -94,7 +94,7 @@ async function seed() {
       stock: 75,
       categoryId: categoryData[0].id,
       brand: "Samsung",
-      imageUrl: "",
+      imageUrl: "/images/products/smartwatch.jpg",
       specs: {
         display: "Super AMOLED",
         processor: "Exynos W920 Dual-Core 1.18GHz",
@@ -111,7 +111,7 @@ async function seed() {
       stock: 50,
       categoryId: categoryData[1].id,
       brand: "LG",
-      imageUrl: "",
+      imageUrl: "/images/products/tv_mockup.jpg",
       specs: {
         resolution: "4K Ultra HD (3840 x 2160)",
         hdrFormat: "Dolby Vision, HDR10, HLG",
@@ -128,7 +128,7 @@ async function seed() {
       stock: 120,
       categoryId: categoryData[2].id,
       brand: "Apple",
-      imageUrl: "",
+      imageUrl: "/images/products/ipad-air.jpg",
       specs: {
         display: "10.9-inch Liquid Retina display",
         chip: "M1 chip",
@@ -162,7 +162,7 @@ async function seed() {
       stock: 150,
       categoryId: categoryData[3].id,
       brand: "Samsung",
-      imageUrl: "",
+      imageUrl: "/images/products/samsung-galaxy-s24.jpg",
       specs: {
         display: '6.8" Edge Quad HD+ Dynamic AMOLED 2X Display',
         processor: "Snapdragon® 8 Gen 2 Mobile Platform",
@@ -179,7 +179,7 @@ async function seed() {
       stock: 80,
       categoryId: categoryData[4].id,
       brand: "Apple",
-      imageUrl: "",
+      imageUrl: "/images/products/macbook.jpg",
       specs: {
         display: "13.6-inch Liquid Retina display",
         chip: "Apple M2 chip",
@@ -196,7 +196,7 @@ async function seed() {
       stock: 300,
       categoryId: categoryData[5].id,
       brand: "Apple",
-      imageUrl: "",
+      imageUrl: "/images/products/airpods-pro.jpg",
       specs: {
         chipset: "H2 chip",
         sweatAndWaterResistant: "Yes (IPX4)",
