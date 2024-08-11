@@ -18,6 +18,11 @@ export default function AttributionsPage() {
             Tv Mockup Stock photos by Vecteezy
           </a>
         </li>
+        <li>
+          <a href="https://www.vecteezy.com/free-photos/airpods">
+            Airpods Stock photos by Vecteezy
+          </a>
+        </li>
       </ul>
     </div>
   );

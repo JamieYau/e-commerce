@@ -18,11 +18,11 @@ async function seed() {
   // Clear existing data
   await db.delete(cartItems).execute();
   await db.delete(carts).execute();
+  await db.delete(orderItems).execute();
+  await db.delete(orders).execute();
   await db.delete(products).execute();
   await db.delete(categories).execute();
   await db.delete(reviews).execute();
-  await db.delete(orderItems).execute();
-  await db.delete(orders).execute();
 
   // Seed Categories
   const categoryData = [
@@ -119,6 +119,22 @@ async function seed() {
         smartPlatform: "webOS",
       },
     },
+    {
+      id: uuidv4(),
+      name: "Samsung Odyssey G9",
+      description: "49” Dual QHD Curved Gaming Monitor",
+      price: "1499.99",
+      stock: 50,
+      categoryId: categoryData[1].id,
+      brand: "Samsung",
+      imageUrl: "/images/products/samsung-g9.jpg",
+      specs: {
+        resolution: "5120 x 1440",
+        refreshRate: "240Hz",
+        curvature: "1000R",
+        panelType: "VA",
+      },
+    },
     // Tablets
     {
       id: uuidv4(),
@@ -205,6 +221,36 @@ async function seed() {
       },
       stripeProductId: "",
       stripePriceId: "",
+    },
+    {
+      id: uuidv4(),
+      name: "Apple AirPods (3rd generation)",
+      description: "Personalized Spatial Audio with dynamic head tracking.",
+      price: "179.0",
+      stock: 250,
+      categoryId: categoryData[5].id,
+      brand: "Apple",
+      imageUrl: "/images/products/airpods-3.jpg",
+      specs: {
+        chipset: "H1 chip",
+        sweatAndWaterResistant: "Yes (IPX4)",
+        batteryLife: "Up to 6 hours of listening time",
+      },
+    },
+    {
+      id: uuidv4(),
+      name: "Apple AirPods Max",
+      description: "Over-ear headphones with Active Noise Cancellation.",
+      price: "549.0",
+      stock: 200,
+      categoryId: categoryData[5].id,
+      brand: "Apple",
+      imageUrl: "/images/products/airpods-max.jpg",
+      specs: {
+        chipset: "H1 chip",
+        activeNoiseCancellation: "Yes",
+        batteryLife: "Up to 20 hours of listening time",
+      },
     },
   ];
 
