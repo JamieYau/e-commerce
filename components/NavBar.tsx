@@ -44,15 +44,16 @@ export default function NavBar() {
                 src={"/favicons/android-chrome-512x512.png"}
                 alt="icon"
                 fill
+                sizes="40px"
               />
             </AspectRatio>
           </Link>
         </div>
         {/* SearchBar */}
-          <SearchBar
-            setIsSearchVisible={setIsSearchVisible}
-            isVisible={isSearchVisible}
-          />
+        <SearchBar
+          setIsSearchVisible={setIsSearchVisible}
+          isVisible={isSearchVisible}
+        />
         {/* Nav Links */}
         <div className="flex items-center gap-4">
           {/* Desktop */}

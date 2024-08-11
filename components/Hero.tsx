@@ -10,6 +10,7 @@ export default function Hero() {
           src={"/images/hero-1.png"}
           alt="hero"
           fill
+          sizes="(min-width: 1400px) 1280px, 93.7vw"
           className="absolute left-0 top-0 h-full w-full object-cover"
         />
         <div className="relative z-10 ml-4 mr-auto sm:ml-28">
