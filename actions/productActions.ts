@@ -9,6 +9,7 @@ import {
   desc,
   eq,
   gte,
+  ilike,
   inArray,
   lte,
   notInArray,
@@ -16,6 +17,7 @@ import {
 } from "drizzle-orm";
 
 interface Filters {
+  q?: string;
   sort?: string;
   categories?: string[];
   minPrice?: string;
@@ -39,7 +41,7 @@ function getSort(sort: Filters["sort"]) {
 }
 
 export const getProducts = async (filters: Filters = {}) => {
-  const { sort, categories, minPrice, maxPrice } = filters;
+  const { q, sort, categories, minPrice, maxPrice } = filters;
   const result = await db
     .select()
     .from(products)
@@ -47,6 +49,7 @@ export const getProducts = async (filters: Filters = {}) => {
     // .groupBy(products.id)
     .where(
       and(
+        q ? ilike(products.name, `%${q}%`) : undefined,
         categories && categories.length > 0
           ? inArray(products.categoryId, categories)
           : undefined,

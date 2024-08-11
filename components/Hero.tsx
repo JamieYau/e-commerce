@@ -10,9 +10,10 @@ export default function Hero() {
           src={"/images/hero-1.png"}
           alt="hero"
           fill
+          sizes="(min-width: 1400px) 1280px, 93.7vw"
           className="absolute left-0 top-0 h-full w-full object-cover"
         />
-        <div className="relative z-10 ml-8 mr-auto sm:ml-28">
+        <div className="relative z-10 ml-4 mr-auto sm:ml-28">
           <h1 className="max-w-72 text-5xl font-bold">Shop at TechWave</h1>
           <p className="my-4 text-lg font-medium">Explore best tech products</p>
           <p className="mb-10 max-w-52 text-sm font-semibold text-muted-foreground">
