@@ -1,6 +1,7 @@
 import { getProducts } from "@/actions/productActions";
 import ProductCard from "./ProductCard";
 import { ProductsFiltersProps } from "@/app/products/page";
+import { productCountString } from "@/lib/utils";
 
 export default async function Products({ searchParams }: ProductsFiltersProps) {
   const filters = {
@@ -16,13 +17,15 @@ export default async function Products({ searchParams }: ProductsFiltersProps) {
 
   return (
     <>
-      <header className="mb-4 flex justify-between items-center">
+      <header className="mb-4 flex items-center justify-between">
         <h1 className="text-3xl font-semibold">
           {!searchParams || !searchParams.q
             ? `Products`
             : `Results for: "${searchParams.q}"`}
         </h1>
-        <span className="text-sm text-muted-foreground">{products.length} Products</span>
+        <span className="text-sm text-muted-foreground">
+          {productCountString(products.length)}
+        </span>
       </header>
       <ul className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         {products.map((product) => (

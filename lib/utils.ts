@@ -19,3 +19,11 @@ export function cartSummary(numItems: number) {
     return `(${numItems} items)`;
   }
 }
+
+export function productCountString(numProducts: number) {
+  if (numProducts === 1) {
+    return "1 Product";
+  } else {
+    return `${numProducts} products`;
+  }
+}
