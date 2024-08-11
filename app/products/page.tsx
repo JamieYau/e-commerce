@@ -15,7 +15,7 @@ import SortSelect from "@/components/SortSelect";
 
 export interface ProductsFiltersProps {
   searchParams?: {
-    q?:string;
+    q?: string;
     sort?: string;
     category?: string;
     minPrice?: string;
@@ -40,14 +40,14 @@ export default function ProductsPage({ searchParams }: ProductsFiltersProps) {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="flex flex-col lg:grid lg:grid-cols-10 lg:gap-4">
-        <div className="flex h-full w-full flex-col gap-2 pt-4 lg:col-span-2">
+        <div className="flex h-full w-full flex-col gap-2 py-4 lg:col-span-2">
           <h2 className="hidden font-semibold lg:block">Filters</h2>
           <div className="flex justify-end gap-4 lg:flex-col-reverse">
             <ProductFilters />
             <SortSelect />
           </div>
         </div>
-        <div className="mx-auto w-full max-w-7xl pt-4 lg:col-span-8">
+        <div className="mx-auto w-full max-w-7xl lg:col-span-8">
           <Suspense fallback={<Loading />}>
             <Products searchParams={searchParams} />
           </Suspense>
