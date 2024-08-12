@@ -11,6 +11,7 @@ import {
 } from "./schema";
 import { v4 as uuidv4 } from "uuid";
 import { stripe } from "@/lib/stripe";
+import { Product } from "@/types/db";
 
 async function seed() {
   console.log("Seeding database...");
@@ -68,7 +69,7 @@ async function seed() {
   console.log("Categories seeded successfully");
 
   // Seed Products
-  const productData = [
+  const productData: Product[] = [
     // Smartwatches
     {
       id: uuidv4(),
@@ -85,6 +86,8 @@ async function seed() {
         storage: "32GB",
         waterResistant: "50 meters",
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
       id: uuidv4(),
@@ -101,6 +104,8 @@ async function seed() {
         storage: "16GB",
         waterResistant: "5ATM + IP68",
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     // TV & Home
     {
@@ -118,6 +123,8 @@ async function seed() {
         refreshRate: "120Hz",
         smartPlatform: "webOS",
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
       id: uuidv4(),
@@ -134,6 +141,8 @@ async function seed() {
         curvature: "1000R",
         panelType: "VA",
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     // Tablets
     {
@@ -151,6 +160,8 @@ async function seed() {
         storage: "64GB or 256GB",
         camera: "12MP Wide camera, 12MP Ultra Wide front camera",
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     // Phones
     {
@@ -169,6 +180,8 @@ async function seed() {
           "Pro camera system (48MP Main, 12MP Ultra Wide, 12MP Telephoto)",
         frontCamera: "12MP TrueDepth front camera",
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
       id: uuidv4(),
@@ -185,6 +198,8 @@ async function seed() {
         camera: "200MP Wide, 12MP Ultra-Wide, 10MP Telephoto, 10MP Telephoto",
         frontCamera: "12MP Front-Facing Camera",
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     // Laptops
     {
@@ -202,6 +217,8 @@ async function seed() {
         memory: "8GB unified memory",
         storage: "256GB SSD",
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     // Accessories
     {
@@ -219,8 +236,8 @@ async function seed() {
         chargingCase: "MagSafe Charging Case",
         batteryLife: "Up to 6 hours of listening time with ANC on",
       },
-      stripeProductId: "",
-      stripePriceId: "",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
       id: uuidv4(),
@@ -236,6 +253,8 @@ async function seed() {
         sweatAndWaterResistant: "Yes (IPX4)",
         batteryLife: "Up to 6 hours of listening time",
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
       id: uuidv4(),
@@ -251,28 +270,10 @@ async function seed() {
         activeNoiseCancellation: "Yes",
         batteryLife: "Up to 20 hours of listening time",
       },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   ];
-
-  // stripe data
-  for (const product of productData) {
-    // Create a product on Stripe
-    const stripeProduct = await stripe.products.create({
-      name: product.name,
-      description: product.description,
-    });
-
-    // Create a price for the product on Stripe
-    const stripePrice = await stripe.prices.create({
-      unit_amount: parseFloat(product.price) * 100,
-      currency: "gbp",
-      product: stripeProduct.id,
-    });
-
-    // Update product data with Stripe IDs
-    product.stripeProductId = stripeProduct.id;
-    product.stripePriceId = stripePrice.id;
-  }
 
   await db.insert(products).values(productData);
   console.log("Products seeded successfully");

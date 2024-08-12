@@ -36,6 +36,13 @@
       "when": 1722285783390,
       "tag": "0004_minor_scarlet_spider",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1723493899525,
+      "tag": "0005_square_ulik",
+      "breakpoints": true
     }
   ]
 }
