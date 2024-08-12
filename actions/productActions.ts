@@ -6,6 +6,7 @@ import {
   and,
   asc,
   avg,
+  count,
   desc,
   eq,
   gte,
@@ -22,6 +23,8 @@ interface Filters {
   categories?: string[];
   minPrice?: string;
   maxPrice?: string;
+  page?: number;
+  limit?: number;
 }
 
 function getSort(sort: Filters["sort"]) {
@@ -40,26 +43,41 @@ function getSort(sort: Filters["sort"]) {
   }
 }
 
-export const getProducts = async (filters: Filters = {}) => {
-  const { q, sort, categories, minPrice, maxPrice } = filters;
-  const result = await db
-    .select()
-    .from(products)
-    // .leftJoin(reviews, eq(products.id, reviews.productId))
-    // .groupBy(products.id)
-    .where(
-      and(
-        q ? ilike(products.name, `%${q}%`) : undefined,
-        categories && categories.length > 0
-          ? inArray(products.categoryId, categories)
-          : undefined,
-        minPrice ? gte(products.price, minPrice) : undefined,
-        maxPrice ? lte(products.price, maxPrice) : undefined,
-      ),
-    )
-    .orderBy(getSort(sort));
+export const getProducts = async ({
+  q,
+  sort,
+  categories,
+  minPrice,
+  maxPrice,
+  page = 1,
+  limit = 9,
+}: Filters) => {
+  // .leftJoin(reviews, eq(products.id, reviews.productId))
+  // .groupBy(products.id)
+  const condition = and(
+    q ? ilike(products.name, `%${q}%`) : undefined,
+    categories && categories.length > 0
+      ? inArray(products.categoryId, categories)
+      : undefined,
+    minPrice ? gte(products.price, minPrice) : undefined,
+    maxPrice ? lte(products.price, maxPrice) : undefined,
+  );
 
-  return result;
+  const productList = await db.query.products.findMany({
+    where: condition,
+    orderBy: getSort(sort),
+    limit: limit,
+    offset: (page - 1) * limit,
+  });
+
+  const [total] = await db
+    .select({
+      count: count(),
+    })
+    .from(products)
+    .where(condition);
+
+  return { productList, total: total.count, limit };
 };
 
 export const getProduct = async (id: string) => {
