@@ -1,8 +1,8 @@
 export default function AttributionsPage() {
   return (
     <div>
-      <h1>AttributionsPage</h1>
-      <ul>
+      <h1 className="text-4xl font-semibold">Attributions</h1>
+      <ul className="mt-8 list-disc">
         <li>
           <a href="https://www.vecteezy.com/free-photos/tv">
             Tv Stock photos by Vecteezy

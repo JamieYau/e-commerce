@@ -5,7 +5,6 @@ import { productCountString } from "@/lib/utils";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
