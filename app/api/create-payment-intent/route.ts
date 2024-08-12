@@ -17,7 +17,6 @@ export async function POST(request: Request) {
           id: products.id,
           name: products.name,
           price: products.price,
-          stripePriceId: products.stripePriceId,
         },
       })
       .from(cartItems)
