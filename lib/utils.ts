@@ -22,8 +22,8 @@ export function cartSummary(numItems: number) {
 
 export function productCountString(numProducts: number) {
   if (numProducts === 1) {
-    return "1 Product";
+    return "1 Result";
   } else {
-    return `${numProducts} products`;
+    return `${numProducts} Results`;
   }
 }

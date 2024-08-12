@@ -16,6 +16,7 @@ import SortSelect from "@/components/SortSelect";
 export interface ProductsFiltersProps {
   searchParams?: {
     q?: string;
+    page?: string;
     sort?: string;
     category?: string;
     minPrice?: string;
