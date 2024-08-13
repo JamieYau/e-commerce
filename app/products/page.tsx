@@ -45,7 +45,9 @@ export default function ProductsPage({ searchParams }: ProductsFiltersProps) {
           <h2 className="hidden font-semibold lg:block">Filters</h2>
           <div className="flex justify-end gap-4 lg:flex-col-reverse">
             <ProductFilters />
-            <SortSelect />
+            <Suspense>
+              <SortSelect />
+            </Suspense>
           </div>
         </div>
         <div className="mx-auto w-full max-w-7xl lg:col-span-8">

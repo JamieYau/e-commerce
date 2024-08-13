@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sheet";
 import { FilterIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
 
 export default async function ProductFilters() {
   const categories = await getCategories();
@@ -30,12 +31,16 @@ export default async function ProductFilters() {
                 Add Filters here
               </SheetDescription>
             </SheetHeader>
-            <ProductFiltersForm categories={categories} />
+            <Suspense>
+              <ProductFiltersForm categories={categories} />
+            </Suspense>
           </SheetContent>
         </Sheet>
       </div>
       <div className="hidden lg:mt-4 lg:block">
-        <ProductFiltersForm categories={categories} />
+        <Suspense>
+          <ProductFiltersForm categories={categories} />
+        </Suspense>
       </div>
     </>
   );

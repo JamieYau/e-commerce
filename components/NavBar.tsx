@@ -9,7 +9,7 @@ import Image from "next/image";
 import CartPreview from "./CartPreview";
 import { AspectRatio } from "./ui/aspect-ratio";
 import BurgerMenu from "./BurgerMenu";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Search } from "lucide-react";
 import SearchBar from "./SearchBar";
 
@@ -50,10 +50,12 @@ export default function NavBar() {
           </Link>
         </div>
         {/* SearchBar */}
-        <SearchBar
-          setIsSearchVisible={setIsSearchVisible}
-          isVisible={isSearchVisible}
-        />
+        <Suspense>
+          <SearchBar
+            setIsSearchVisible={setIsSearchVisible}
+            isVisible={isSearchVisible}
+          />
+        </Suspense>
         {/* Nav Links */}
         <div className="flex items-center gap-4">
           {/* Desktop */}
