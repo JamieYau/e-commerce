@@ -28,14 +28,16 @@ export default function CartProvider({ children }: { children: ReactNode }) {
   }, [session]);
 
   const addToCart = async (productId: string, quantity: number) => {
-    if (session?.user?.id) {
-      const updatedCart = await cartActions.addToCart(
-        session.user.id,
-        productId,
-        quantity,
-      );
-      setCart(updatedCart);
+    if (!session?.user?.id) {
+      throw new Error("User is not logged in");
     }
+
+    const updatedCart = await cartActions.addToCart(
+      session.user.id,
+      productId,
+      quantity,
+    );
+    setCart(updatedCart);
   };
 
   const removeFromCart = async (cartItemId: string) => {
@@ -74,3 +76,4 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     </CartContext.Provider>
   );
 }
+

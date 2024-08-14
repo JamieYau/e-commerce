@@ -28,10 +28,11 @@ export default function AddToCartButton({
         description: `${productName} has been added to your cart.`,
         duration: 3000,
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to add item to cart. Please try again.",
+        description:
+          error.message || "Failed to add item to cart. Please try again.",
         variant: "destructive",
       });
     } finally {

@@ -74,7 +74,7 @@ export default function NavBar() {
               <Search />
             </Button>
             <BurgerMenu />
-            <CartPreview />
+            {user && <CartPreview />}
           </div>
           {user && <UserButton user={user} />}
           {session.status === "loading" && (
