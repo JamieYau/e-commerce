@@ -278,6 +278,48 @@ async function seed() {
   await db.insert(products).values(productData);
   console.log("Products seeded successfully");
 
+  // Seed Reviews
+  // Existing User IDs in database
+  const userIds = [
+    "7de26ba2-eefe-4e7f-b5bc-1c67b8b43ead",
+    "f6bef38d-72ef-4614-aabf-0e84a6baf800",
+  ];
+  const reviewData = [];
+  const possibleComments = [
+    "Great product! Highly recommend.",
+    "Not what I expected.",
+    "Would buy again!",
+    "Average quality, but worth the price.",
+    "Exceeded my expectations.",
+    "Terrible, don't waste your money.",
+    "Love it, use it every day!",
+    "Solid product, would recommend to a friend.",
+    "The product arrived on time and works perfectly.",
+    "Good value for money.",
+  ];
+
+  for (const product of productData) {
+    const numberOfReviews = Math.floor(Math.random() * 5) + 1; // 1 to 5 reviews per product
+    for (let i = 0; i < numberOfReviews; i++) {
+      const randomRating = Math.floor(Math.random() * 5) + 1; // 1 to 5 rating
+      const randomComment =
+        possibleComments[Math.floor(Math.random() * possibleComments.length)];
+      const randomUserId = userIds[Math.floor(Math.random() * userIds.length)]; // Pick one of the existing user IDs
+
+      reviewData.push({
+        id: uuidv4(),
+        productId: product.id,
+        userId: randomUserId, // Use one of the existing user IDs
+        rating: randomRating,
+        comment: randomComment,
+        createdAt: new Date(),
+      });
+    }
+  }
+
+  await db.insert(reviews).values(reviewData);
+  console.log("Reviews seeded successfully");
+
   console.log("Database seeding completed");
 }
 

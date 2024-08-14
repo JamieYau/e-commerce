@@ -20,6 +20,7 @@ export const getReviews = async (
       user: {
         columns: {
           name: true,
+          image: true,
         },
       },
     },

@@ -5,15 +5,14 @@ import { products, reviews } from "@/db/schema";
 import {
   and,
   asc,
-  avg,
   count,
   desc,
   eq,
+  getTableColumns,
   gte,
   ilike,
   inArray,
   lte,
-  notInArray,
   sql,
 } from "drizzle-orm";
 
@@ -35,9 +34,8 @@ function getSort(sort: Filters["sort"]) {
       return desc(products.price);
     case "newest":
       return desc(products.createdAt);
-    // case "rating":
-    //   // Join with the reviews table to sort by the average rating
-    //   return desc(avg(reviews.rating));
+    case "rating":
+      return desc(sql`avg_rating`);
     default:
       return desc(products.createdAt);
   }
@@ -52,8 +50,6 @@ export const getProducts = async ({
   page = 1,
   limit = 9,
 }: Filters) => {
-  // .leftJoin(reviews, eq(products.id, reviews.productId))
-  // .groupBy(products.id)
   const condition = and(
     q ? ilike(products.name, `%${q}%`) : undefined,
     categories && categories.length > 0
@@ -62,13 +58,23 @@ export const getProducts = async ({
     minPrice ? gte(products.price, minPrice) : undefined,
     maxPrice ? lte(products.price, maxPrice) : undefined,
   );
+  const productColumns = getTableColumns(products);
 
-  const productList = await db.query.products.findMany({
-    where: condition,
-    orderBy: getSort(sort),
-    limit: limit,
-    offset: (page - 1) * limit,
-  });
+  const productList = await db
+    .select({
+      ...productColumns,
+      avgRating: sql<number>`COALESCE(AVG(${reviews.rating}), 0)`.as(
+        "avg_rating",
+      ),
+      reviewCount: count(reviews.id).as("review_count"),
+    })
+    .from(products)
+    .leftJoin(reviews, eq(reviews.productId, products.id))
+    .where(condition)
+    .groupBy(products.id)
+    .orderBy(getSort(sort))
+    .limit(limit)
+    .offset((page - 1) * limit);
 
   const [total] = await db
     .select({
@@ -114,11 +120,20 @@ export const getRecommendedProducts = async (
   currentProductId: string,
   limit: number = 4,
 ) => {
-  const recommendedProducts = await db.query.products.findMany({
-    where: notInArray(products.id, [currentProductId]),
-    limit: limit,
-    orderBy: sql`RANDOM()`,
-  });
+  const productColumns = getTableColumns(products);
+
+  const recommendedProducts = await db
+    .select({
+      ...productColumns,
+      avgRating: sql<number>`AVG(${reviews.rating})`.as("avg_rating"),
+      reviewCount: sql<number>`COUNT(${reviews.id})`.as("review_count"),
+    })
+    .from(products)
+    .leftJoin(reviews, sql`${products.id} = ${reviews.productId}`)
+    .where(sql`${products.id} != ${currentProductId}`)
+    .groupBy(products.id)
+    .orderBy(sql`RANDOM()`)
+    .limit(limit);
 
   return recommendedProducts;
 };

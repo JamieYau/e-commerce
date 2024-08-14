@@ -1,10 +1,11 @@
-import { Product } from "@/types/db";
+import { ProductWithRating } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import StarRating from "./StarRating";
 
 interface ProductCardProps {
-  product: Product;
+  product: ProductWithRating;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
@@ -20,7 +21,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         />
       </AspectRatio>
       <div className="p-2">
-        <h3 className="font-bold mb-2">{product.name}</h3>
+        <h3 className="font-bold">{product.name}</h3>
+        <div className="mb-2 flex gap-1">
+          <StarRating rating={product.avgRating} />
+          <span className="text-muted-foreground">({product.reviewCount})</span>
+        </div>
         <p>£{product.price}</p>
       </div>
     </Link>
